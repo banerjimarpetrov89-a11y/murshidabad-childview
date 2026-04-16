@@ -25,7 +25,8 @@ export function CrudSection({ table, label, columns }: { table: "resources" | "p
       if (v === undefined || v === "") continue;
       payload[c.key] = c.number ? Number(v) : v;
     }
-    const { error } = await supabase.from(table).insert(payload);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.from(table) as any).insert(payload);
     if (error) setMsg(error.message); else { setForm({}); await load(); }
     setBusy(false);
   };
@@ -92,7 +93,7 @@ export function CrudSection({ table, label, columns }: { table: "resources" | "p
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-foreground truncate">{String(it.title ?? it.name ?? "Untitled")}</div>
                 <div className="mt-0.5 text-xs text-muted-foreground truncate">
-                  {columns.slice(1, 4).map((c) => it[c.key]).filter(Boolean).join(" · ")}
+                  {columns.slice(1, 4).map((c) => String(it[c.key] ?? "")).filter(Boolean).join(" · ")}
                 </div>
               </div>
               <button onClick={() => remove(String(it.id))} className="text-muted-foreground hover:text-destructive">
