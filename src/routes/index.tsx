@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, AlertTriangle, Heart, Scale } from "lucide-react";
+import { Activity, AlertTriangle, ArrowRight, Heart, Scale } from "lucide-react";
 import { Hero } from "@/components/site/Hero";
 import { KpiCard } from "@/components/site/KpiCard";
 import { LeakFunnel } from "@/components/site/LeakFunnel";
+import { MurshidabadMap } from "@/components/site/MurshidabadMap";
 import { DISTRICT_TOTALS, YEAR_TREND, topRiskBlocks, riskColor, riskLabel } from "@/data/blocks";
 
 export const Route = createFileRoute("/")({
