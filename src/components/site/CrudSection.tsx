@@ -58,7 +58,7 @@ export function CrudSection({ table, label, columns }: { table: "resources" | "p
                   <Upload className="h-3.5 w-3.5" /> Upload
                   <input type="file" className="hidden" onChange={(e) => e.target.files?.[0] && upload(c, e.target.files[0])} />
                 </label>
-                {form[c.key] && <span className="text-xs text-muted-foreground truncate">{String(form[c.key])}</span>}
+                {Boolean(form[c.key]) && <span className="text-xs text-muted-foreground truncate">{String(form[c.key])}</span>}
               </div>
             ) : c.textarea ? (
               <textarea
