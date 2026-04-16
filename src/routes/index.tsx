@@ -35,6 +35,27 @@ function Index() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-primary">District Map</div>
+              <h2 className="mt-1 font-serif text-2xl tracking-tight">Murshidabad — 26 blocks, mapped</h2>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                Real geographic boundaries shaded by composite vulnerability. Hover any block for teenage
+                pregnancies, marriages, dropouts and FIRs.
+              </p>
+            </div>
+            <Link to="/map" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+              Explore full map <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-5">
+            <MurshidabadMap height={460} />
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6 grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <LeakFunnel />
