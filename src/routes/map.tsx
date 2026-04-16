@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
-import { BLOCKS, CLUSTERS, type Block, riskColor, riskLabel } from "@/data/blocks";
+import { MurshidabadMap } from "@/components/site/MurshidabadMap";
+import { CLUSTERS, type Block, riskColor, riskLabel } from "@/data/blocks";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
@@ -17,67 +18,22 @@ export const Route = createFileRoute("/map")({
 
 function MapPage() {
   const [selected, setSelected] = useState<Block | null>(null);
-  const cols = 7;
-  const rows = 5;
-  const cell = 110;
-  const gap = 10;
-  const pad = 18;
-  const w = cols * cell + (cols - 1) * gap + pad * 2;
-  const h = rows * cell + (rows - 1) * gap + pad * 2;
 
   return (
     <>
       <PageHeader
         eyebrow="Hotspot Mapping"
         title="Where the risk lives"
-        lead="A stylized block-grid of Murshidabad. Color = vulnerability. Hover or tap a block for the underlying numbers."
+        lead="Real geographic boundaries of all 26 Murshidabad blocks, color-coded by vulnerability. Hover for the numbers, click to drill down."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="rounded-xl border border-border bg-card p-4 md:p-6 overflow-x-auto">
-          <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" role="img" aria-label="Murshidabad hotspot map">
-            {BLOCKS.map((b) => {
-              const x = pad + b.gx * (cell + gap);
-              const y = pad + b.gy * (cell + gap);
-              const fill = riskColor(b.risk);
-              const isSel = selected?.id === b.id;
-              return (
-                <g key={b.id} style={{ cursor: "pointer" }} onClick={() => setSelected(b)}>
-                  <rect
-                    x={x} y={y} width={cell} height={cell} rx={10}
-                    fill={fill}
-                    fillOpacity={isSel ? 1 : 0.85}
-                    stroke={isSel ? "var(--foreground)" : "var(--card)"}
-                    strokeWidth={isSel ? 3 : 2}
-                  />
-                  <text x={x + 10} y={y + 22} fontSize="11" fontWeight="700" fill="white">
-                    {b.name}
-                  </text>
-                  <text x={x + 10} y={y + 40} fontSize="10" fill="white" opacity={0.85}>
-                    {b.pregnancies.toLocaleString("en-IN")} preg
-                  </text>
-                  <text x={x + 10} y={y + 56} fontSize="10" fill="white" opacity={0.85}>
-                    {b.childMarriages} marriages
-                  </text>
-                  <text x={x + 10} y={y + 72} fontSize="10" fill="white" opacity={0.85}>
-                    {b.firs} FIRs
-                  </text>
-                  <text x={x + cell - 10} y={y + cell - 10} fontSize="9" fontWeight="700" fill="white" textAnchor="end" opacity={0.9}>
-                    {riskLabel(b.risk).toUpperCase()}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-xs">
-            {(["critical", "high", "moderate", "low", "safe"] as const).map((r) => (
-              <div key={r} className="flex items-center gap-1.5">
-                <span className="inline-block h-3 w-3 rounded" style={{ backgroundColor: riskColor(r) }} />
-                <span className="text-muted-foreground">{riskLabel(r)}</span>
-              </div>
-            ))}
-          </div>
+      <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-6 lg:grid-cols-[1fr_340px]">
+        <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+          <MurshidabadMap
+            height={620}
+            selectedId={selected?.id ?? null}
+            onSelect={(b) => setSelected(b)}
+          />
         </div>
 
         <aside className="rounded-xl border border-border bg-card p-5 md:p-6">

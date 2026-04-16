@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, AlertTriangle, Heart, Scale } from "lucide-react";
+import { Activity, AlertTriangle, ArrowRight, Heart, Scale } from "lucide-react";
 import { Hero } from "@/components/site/Hero";
 import { KpiCard } from "@/components/site/KpiCard";
 import { LeakFunnel } from "@/components/site/LeakFunnel";
+import { MurshidabadMap } from "@/components/site/MurshidabadMap";
 import { DISTRICT_TOTALS, YEAR_TREND, topRiskBlocks, riskColor, riskLabel } from "@/data/blocks";
 
 export const Route = createFileRoute("/")({
@@ -31,6 +32,27 @@ function Index() {
           <KpiCard label="Kanyashree K1 dropouts" value={DISTRICT_TOTALS.k1Dropouts} sub="Non-renewals across district" tone="warn" icon={<Activity className="h-4 w-4" />} />
           <KpiCard label="Child marriages reported" value={DISTRICT_TOTALS.childMarriages} sub="CMRTS register" tone="warn" icon={<AlertTriangle className="h-4 w-4" />} />
           <KpiCard label="FIRs filed" value={DISTRICT_TOTALS.firs} sub="POCSO + child crime, eCourts" tone="ok" icon={<Scale className="h-4 w-4" />} />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-primary">District Map</div>
+              <h2 className="mt-1 font-serif text-2xl tracking-tight">Murshidabad — 26 blocks, mapped</h2>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                Real geographic boundaries shaded by composite vulnerability. Hover any block for teenage
+                pregnancies, marriages, dropouts and FIRs.
+              </p>
+            </div>
+            <Link to="/map" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+              Explore full map <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-5">
+            <MurshidabadMap height={460} />
+          </div>
         </div>
       </section>
 
