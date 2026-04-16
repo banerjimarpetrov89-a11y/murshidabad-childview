@@ -1,50 +1,75 @@
 
-# Murshidabad Child Protection Dashboard — CINI
+## Goal
+Integrate every finding from the new "Crime against Children" draft into the site, and add geographic North/South/East/West/Central cluster filtering on the hotspot map.
 
-A modern, data-driven public site presenting real district + block-level data from your CINI / Murshidabad District Administration dashboard (2023–2026). All 26 blocks, the District Leak Funnel, the Vulnerability Matrix, cluster narratives, and action plans — encoded as real data and visualized cleanly.
+## 1. Data layer updates (`src/data/blocks.ts` + new `src/data/crime.ts`)
 
-## Pages (separate routes for SSR + SEO)
+Refresh per-block numbers using the PDF's exact values for the 14 blocks covered: Murshidabad-Jiaganj (TP 2760, CMRTS 75, FIRs 51), Lalgola (5445/57/65), Kandi (3522/23/28), Bhagwangola I (3483/114/18), Bhagwangola II (2661/71/25), Farakka (3361/19/22), Nabagram (3040/69/18), Khargram (3909/39/13), Samserganj (4548/49/26), Sagardighi (4559/32/10), Burwan (2641/20/15), Bharatpur I (2112/21/20), Bharatpur II (1734/17/13), Suti I (2909/22/14), Raghunathganj I+II (7201/78/15), Raninagar I (3165/51/25), Raninagar II (2990/21/25). Recompute reportingSilence from the published CMRTS-vs-TP and FIR-vs-TP ratios.
 
-1. **Home `/`** — Hero with district headline, 4 KPI cards (86,928 teenage pregnancies · 18,525 K1 non-renewals · 1,518 child marriages · 427 FIRs), the **District Leak Funnel** (Health → Scheme → Protection → Justice with -98.7% drop-offs), year-wise trend chart, top 5 high-risk blocks, "Key Insights" narrative.
+Add a new `compass` field per block (`N | S | E | W | C`) so the map can filter by cardinal cluster. Add `policeStation` per block.
 
-2. **Hotspot Map `/map`** — Stylized SVG of all 26 Murshidabad blocks arranged by geography/cluster (North border, North-Central, Eastern Border, Central Hub, Western Outpost, Mid-South, Northern Central). Color-coded Red/Orange/Yellow/Teal by vulnerability. Hover tooltip shows pregnancies, child marriages, K1 dropouts, FIRs. Click → block detail drawer with Panchayat hotspots (Mohisar, Sadal, Akheriganj, Lakshmijhola, etc.).
+Create `src/data/crime.ts` with:
+- `POLICE_STATION_CASES` — per-PS category breakdown (e.g. Lalgola PS 65 cases split into POCSO+Child Marriage 13, POCSO+Rape 12, POCSO+Kidnapping 19, etc.) for all 14 stations from the doc.
+- `PS_FREQUENCY_2024` and `PS_FREQUENCY_2025` — high-frequency PS lists (Lalgola 38, Murshidabad 23, Shamserganj 18, Kandi 15, Farakka 14…).
+- `ECOURTS_YEAR_COMPARISON` — 2024 (201 cases) vs 2025 (226 cases) with category split.
+- `CMRTS_TREND` — 130 (2023) → 471 (2024) → 929 (2025).
+- `NFHS_TREND` — child marriage 53.6%→55.3%; teenage pregnancy 29.5%→20.6%.
+- `DAR_SUMMARY` — Murshidabad PD 208 cases (PCMA 97, POCSO 104, Kidnap 20, Trafficking 17; multi-convict 50, child-convicts 18, avg age 28.5) and Jangipur PD 25 cases (PCMA 8, POCSO 17, Rape 3; child-convicts 9, multi-convict 6, avg age 26).
+- `LANDMARK_VERDICT` — the 9-yr-old victim case verdict text (death sentence + life imprisonment, POCSO §6).
+- `JANGIPUR_PD_BLOCKS` — Farakka, Samserganj, Suti I, Suti II, Raghunathganj I/II, Sagardighi.
+- `LIMITATIONS` — Berhampore court missing, FIR-CMRTS not joined, pendency not analysed.
 
-3. **Data Insights `/insights`** — Year-wise teenage pregnancy line chart (2023-24: 38,744 → 2025-26: 12,549), block-wise comparison bars, eCourts category breakdown (Sexual Assault 155, POCSO+Kidnapping 141, etc.), Kanyashree dropout chart. Each chart has a "What this means" interpretation card.
+## 2. Map: cardinal cluster filter (`MurshidabadMap.tsx` + `/map`)
 
-4. **Vulnerability Matrix `/matrix`** — Interactive scatter plot with 4 quadrants (Critical Red / Orange / Yellow / Safe Teal), X = reporting silence, Y = incident volume. Plots Lalgola, Bhagwangola I/II, Domkol, Jalangi, Berhampore, Beldanga I, Farakka, Suti II, Kandi, Bharatpur II, etc.
+Add a top filter bar above the geographic Leaflet map with chips: **All · North · South · East · West · Central**. Selecting a direction dims non-matching blocks (fillOpacity 0.15) and zooms-fits to the selected subset. Compass groupings:
+- **N**: Farakka, Samserganj, Suti I/II, Raghunathganj I/II, Sagardighi, Lalgola, Bhagwangola I/II, Raninagar I/II, Jalangi
+- **C**: Murshidabad-Jiaganj, Berhampore, Beldanga I/II, Hariharpara, Nowda
+- **E**: Domkol, Raninagar I/II edge (border)
+- **S**: Bharatpur I/II, Burwan, Khargram, Kandi
+- **W**: Nabagram, Sagardighi west, Khargram west
 
-5. **Red Flags `/red-flags`** — The "killer feature" page. Insight cards: Domkol (4,393 pregnancies / 0 FIRs), Raninagar II ground truth (125/157 dropouts were child brides), Beldanga II (60% of 470 K1 dropouts = underage marriage), Kanyashree Loophole flowchart, Justice Gap analysis. Each card ends with **"What should be done here?"**
+Also add an indicator selector (Pregnancies / Child Marriages / FIRs / Reporting Silence) that reshades the map.
 
-6. **Cluster Stories `/clusters`** — 7 cluster narratives: Border & River (North), High Dropout (North-Central), Eastern Border, Central Hub, Western Outpost, Mid-South, Northern Central. Each shows member blocks + key Panchayat hotspots.
+## 3. Home (`/`)
+- Update KPIs to PDF figures: NFHS-V child marriage **55.3%** (↑1.7), teenage pregnancy **20.6%**, CMRTS prevented YoY **130→471→929** (mini sparkline), eCourts 2024 vs 2025 (**201 → 226**, +12%).
+- Add a "DAR Snapshot" strip: 208 cases in Murshidabad PD + 25 in Jangipur PD over May–Nov 2025.
+- Embed cardinal-filter map preview.
 
-7. **Resources `/resources`** — Repository of schemes (ICPS, Kanyashree, Beti Bachao Beti Padhao), SOPs, training manuals. Filters by stakeholder (Govt / NGO / CSR) and theme (Child Marriage, Trafficking, Protection Systems). Backed by database.
+## 4. Hotspot Map page (`/map`)
+- Cardinal filter (above) + indicator selector.
+- New right-rail card: "Top Police Stations by Case Frequency (2025)" with Lalgola 38 leading.
+- Block detail drawer extended: shows police station name + case-category breakdown + 2024 vs 2025 trend + reporting discrepancy ratios.
 
-8. **Publications `/publications`** — District reports, research, baseline/endline assessments. Each card: summary + key findings + PDF download. Database-backed with admin upload.
+## 5. Data Insights (`/insights`)
+Add three new charts:
+- **CMRTS Prevention Trend** (bar) 2023/2024/2025.
+- **eCourts 2024 vs 2025** grouped bar by category (POCSO+Child Marriage 15→44, POCSO+Kidnapping 67→67, Sexual Harassment 43, Sexual Assault 53→102).
+- **Top PS Case Frequency 2024 vs 2025** horizontal bar.
+- **DAR Legislation Mix** donut for Murshidabad PD + Jangipur PD.
+Each gets a "What this means" caption.
 
-9. **Events & Initiatives `/events`** — Timeline of campaigns, govt drives, NGO interventions, with impact stories. Database-backed.
+## 6. Vulnerability Matrix (`/matrix`)
+- Recompute X (reporting silence) and Y (TP volume) from the refreshed numbers.
+- Add a third dimension via point size = child-marriage cases prevented (CMRTS).
+- Add a "Discrepancy Ratio" toggle: switch Y to FIRs/TP × 100 to spotlight the silent quadrant (Khargram 0.003%, Sagardighi 0.005%, Samserganj 0.005%).
 
-10. **Stakeholders `/stakeholders`** — Govt departments, NGOs (CINI), CSR partners — roles and intervention areas.
+## 7. Red Flags (`/red-flags`)
+Add five new evidence cards from the PDF:
+- **The 0.003% Justice Gap — Khargram** (3,909 TP vs 13 FIRs).
+- **Sagardighi & Samserganj — vanishing reporting** (0.005% FIR ratio).
+- **Lalgola = district crime epicentre** (Lalgola PS 38 cases in 2025, top of district).
+- **Raghunathganj combined paradox** (7,201 TP — highest in dataset — only 15 FIRs).
+- **Landmark Verdict** — the 9-year-old victim, Dinabandhu Halder death sentence under POCSO §6, as proof the system *can* deliver when cases reach court.
+Each retains the "What should be done here?" CTA.
 
-11. **Action Plan `/action-plan`** — The District Administration 2-part action plan (Data & Tracking + Community & Law Enforcement) presented as actionable cards.
+## 8. Cluster Stories (`/clusters`)
+- Add a **Jangipur Police District** narrative card (its 7 blocks, 1,054.5 km², ~1.9M population, est. 1 Jan 2020, focus = border security + anti-trafficking).
+- Add the cardinal **N/S/E/W/C** roll-up beside the existing 7 thematic clusters: aggregate TP, CMRTS, FIRs and discrepancy ratios per direction.
+- Add a "Limitations of this Analysis" footer (Berhampore court gap, no FIR-CMRTS join, no pendency).
 
-12. **Admin `/admin`** — Login-gated. Add/edit Resources, Publications, Events, Stakeholders. Upload PDFs.
+## 9. Header / Footer
+- Footer: add "eCourts Murshidabad", "CMRTS Portal", "HMIS", "Daily Arrest Report" as data-source links.
+- Add new top-nav item linking to a small **Methodology & Limitations** section on `/insights`.
 
-## Backend (Lovable Cloud)
-
-- Tables: `resources`, `publications`, `events`, `stakeholders` (public read via RLS), plus `user_roles` with `app_role` enum + `has_role()` security-definer function for admin gating.
-- Storage bucket for publication PDFs.
-- Email/password auth for admins; first user can self-promote, then invites.
-- All 26 blocks' statistical data lives in code (`src/data/blocks.ts`) — it's analytical reference data, not user content.
-
-## Design
-
-- **Branding:** "CINI Murshidabad" with "Child In Need Institute · Murshidabad District Administration, Government of West Bengal" attribution in header/footer.
-- **Palette:** Deep blue (trust/govt), red (risk), amber (caution), green (positive), teal (safe). Government-friendly, clean, professional.
-- **Typography:** Inter for clarity; serif accent for narrative pull-quotes.
-- **Charts:** Recharts (line, bar, scatter, funnel).
-- **Mobile-responsive**, sticky top nav, footer with data sources (HMIS, DPMU, CMRTS, eCourts).
-- Search + filters on Resources/Publications; CSV/PDF export on data tables.
-
-## Data baked in from your PDFs
-
-District totals, year-wise pregnancy trend, eCourts category breakdown, all 26 block factsheets (Khargram, Nabagram, Suti I/II, Samserganj, Murshidabad-Jiaganj, Farakka, Kandi, Lalgola, Sagardighi, Burwan, Bhagwangola I/II, Domkol, Jalangi, Raninagar 1/2, Bharatpur 1/2, Hariharpara, Berhampore, Beldanga 1/2, Raghunathganj 1/2, Nowda), top Panchayats, cluster groupings, Vulnerability Matrix coordinates, and the full action plan.
+## Out of scope
+No backend schema changes — all new data is analytical reference and lives in `src/data/`.
