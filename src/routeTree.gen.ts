@@ -9,8 +9,74 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StakeholdersRouteImport } from './routes/stakeholders'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as RedFlagsRouteImport } from './routes/red-flags'
+import { Route as PublicationsRouteImport } from './routes/publications'
+import { Route as MatrixRouteImport } from './routes/matrix'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as ClustersRouteImport } from './routes/clusters'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ActionPlanRouteImport } from './routes/action-plan'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StakeholdersRoute = StakeholdersRouteImport.update({
+  id: '/stakeholders',
+  path: '/stakeholders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedFlagsRoute = RedFlagsRouteImport.update({
+  id: '/red-flags',
+  path: '/red-flags',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicationsRoute = PublicationsRouteImport.update({
+  id: '/publications',
+  path: '/publications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatrixRoute = MatrixRouteImport.update({
+  id: '/matrix',
+  path: '/matrix',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClustersRoute = ClustersRouteImport.update({
+  id: '/clusters',
+  path: '/clusters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActionPlanRoute = ActionPlanRouteImport.update({
+  id: '/action-plan',
+  path: '/action-plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +85,186 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/action-plan': typeof ActionPlanRoute
+  '/admin': typeof AdminRoute
+  '/clusters': typeof ClustersRoute
+  '/events': typeof EventsRoute
+  '/insights': typeof InsightsRoute
+  '/map': typeof MapRoute
+  '/matrix': typeof MatrixRoute
+  '/publications': typeof PublicationsRoute
+  '/red-flags': typeof RedFlagsRoute
+  '/resources': typeof ResourcesRoute
+  '/stakeholders': typeof StakeholdersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/action-plan': typeof ActionPlanRoute
+  '/admin': typeof AdminRoute
+  '/clusters': typeof ClustersRoute
+  '/events': typeof EventsRoute
+  '/insights': typeof InsightsRoute
+  '/map': typeof MapRoute
+  '/matrix': typeof MatrixRoute
+  '/publications': typeof PublicationsRoute
+  '/red-flags': typeof RedFlagsRoute
+  '/resources': typeof ResourcesRoute
+  '/stakeholders': typeof StakeholdersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/action-plan': typeof ActionPlanRoute
+  '/admin': typeof AdminRoute
+  '/clusters': typeof ClustersRoute
+  '/events': typeof EventsRoute
+  '/insights': typeof InsightsRoute
+  '/map': typeof MapRoute
+  '/matrix': typeof MatrixRoute
+  '/publications': typeof PublicationsRoute
+  '/red-flags': typeof RedFlagsRoute
+  '/resources': typeof ResourcesRoute
+  '/stakeholders': typeof StakeholdersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/action-plan'
+    | '/admin'
+    | '/clusters'
+    | '/events'
+    | '/insights'
+    | '/map'
+    | '/matrix'
+    | '/publications'
+    | '/red-flags'
+    | '/resources'
+    | '/stakeholders'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/action-plan'
+    | '/admin'
+    | '/clusters'
+    | '/events'
+    | '/insights'
+    | '/map'
+    | '/matrix'
+    | '/publications'
+    | '/red-flags'
+    | '/resources'
+    | '/stakeholders'
+  id:
+    | '__root__'
+    | '/'
+    | '/action-plan'
+    | '/admin'
+    | '/clusters'
+    | '/events'
+    | '/insights'
+    | '/map'
+    | '/matrix'
+    | '/publications'
+    | '/red-flags'
+    | '/resources'
+    | '/stakeholders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActionPlanRoute: typeof ActionPlanRoute
+  AdminRoute: typeof AdminRoute
+  ClustersRoute: typeof ClustersRoute
+  EventsRoute: typeof EventsRoute
+  InsightsRoute: typeof InsightsRoute
+  MapRoute: typeof MapRoute
+  MatrixRoute: typeof MatrixRoute
+  PublicationsRoute: typeof PublicationsRoute
+  RedFlagsRoute: typeof RedFlagsRoute
+  ResourcesRoute: typeof ResourcesRoute
+  StakeholdersRoute: typeof StakeholdersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/stakeholders': {
+      id: '/stakeholders'
+      path: '/stakeholders'
+      fullPath: '/stakeholders'
+      preLoaderRoute: typeof StakeholdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/red-flags': {
+      id: '/red-flags'
+      path: '/red-flags'
+      fullPath: '/red-flags'
+      preLoaderRoute: typeof RedFlagsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/publications': {
+      id: '/publications'
+      path: '/publications'
+      fullPath: '/publications'
+      preLoaderRoute: typeof PublicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matrix': {
+      id: '/matrix'
+      path: '/matrix'
+      fullPath: '/matrix'
+      preLoaderRoute: typeof MatrixRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clusters': {
+      id: '/clusters'
+      path: '/clusters'
+      fullPath: '/clusters'
+      preLoaderRoute: typeof ClustersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/action-plan': {
+      id: '/action-plan'
+      path: '/action-plan'
+      fullPath: '/action-plan'
+      preLoaderRoute: typeof ActionPlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +277,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActionPlanRoute: ActionPlanRoute,
+  AdminRoute: AdminRoute,
+  ClustersRoute: ClustersRoute,
+  EventsRoute: EventsRoute,
+  InsightsRoute: InsightsRoute,
+  MapRoute: MapRoute,
+  MatrixRoute: MatrixRoute,
+  PublicationsRoute: PublicationsRoute,
+  RedFlagsRoute: RedFlagsRoute,
+  ResourcesRoute: ResourcesRoute,
+  StakeholdersRoute: StakeholdersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
