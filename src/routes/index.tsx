@@ -85,6 +85,47 @@ function Index() {
         </div>
       </section>
 
+      {/* Health Snapshot from HMIS */}
+      <section className="mx-auto max-w-7xl px-4 pb-8 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Health Snapshot · HMIS</div>
+              <h2 className="mt-1 font-serif text-2xl tracking-tight">{HMIS_DISTRICT_ROLLUP.scIngested} sub-centres · {HMIS_DISTRICT_ROLLUP.blocksIngested} blocks ingested</h2>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">Maternal & child-health indicators from the NHM HMIS — pregnancies, first-trimester registration, high-risk share and adolescent pregnancy.</p>
+            </div>
+            <Link to="/hmis" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+              Open HMIS dashboard <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <KpiCard label="PW tracked" value={HMIS_DISTRICT_ROLLUP.totalPWTracked} sub="155 sub-centres" icon={<Heart className="h-4 w-4" />} />
+            <KpiCard label="ANC 1st trimester" value={`${HMIS_DISTRICT_ROLLUP.firstTriPctAvg}%`} sub="block avg" tone="ok" icon={<Activity className="h-4 w-4" />} />
+            <KpiCard label="High-risk PW" value={`${HMIS_DISTRICT_ROLLUP.highRiskPctAvg}%`} sub="of registered" tone="warn" icon={<AlertTriangle className="h-4 w-4" />} />
+            <KpiCard label="Teen-pregnancy share" value={`${HMIS_DISTRICT_ROLLUP.teenPWShareAvg}%`} sub="age 15-19 of new ANC" tone="risk" icon={<Droplet className="h-4 w-4" />} />
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[BLOCK_HMIS_SUMMARY.sutiII, BLOCK_HMIS_SUMMARY.murshidabadJiaganj, BLOCK_HMIS_SUMMARY.samserganj].map((b) => (
+              <div key={b.block} className="rounded-lg border border-border/60 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{b.period}</div>
+                <div className="mt-0.5 font-serif text-base">{b.block}</div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  PW <span className="text-foreground font-semibold tabular-nums">{("totalPW" in b ? b.totalPW : 0)?.toLocaleString("en-IN")}</span>
+                  {"teenPWShare" in b && <> · teen <span className="text-[color:var(--risk-critical)] font-semibold">{b.teenPWShare}%</span></>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-wrap items-center gap-1.5 text-[10px] text-muted-foreground">
+            <span className="uppercase tracking-wider">Sources:</span>
+            {["HMIS (NHM)", "PW Registration", "eCourts", "CMRTS", "NFHS-V", "Daily Arrest Report"].map((s) => (
+              <span key={s} className="rounded-full border border-border bg-secondary px-2 py-0.5 text-foreground/80">{s}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       {/* DAR Snapshot */}
       <section className="mx-auto max-w-7xl px-4 pb-8 md:px-6">
         <div className="rounded-xl border-2 border-[color:var(--risk-critical)]/30 bg-card p-5 md:p-7">
