@@ -17,11 +17,16 @@ export function SiteFooter() {
           <div className="text-xs font-semibold uppercase tracking-wider text-foreground">Explore</div>
           <ul className="mt-3 space-y-1.5 text-xs text-muted-foreground">
             <li><Link to="/map" className="hover:text-foreground">Hotspot Map</Link></li>
+            <li><Link to="/hmis" className="hover:text-foreground">HMIS Health</Link></li>
             <li><Link to="/red-flags" className="hover:text-foreground">Red Flags</Link></li>
             <li><Link to="/action-plan" className="hover:text-foreground">Action Plan</Link></li>
             <li><Link to="/publications" className="hover:text-foreground">Publications</Link></li>
-            <li><Link to="/admin" className="hover:text-foreground">Admin</Link></li>
           </ul>
+          <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-foreground">For researchers</div>
+          <div className="mt-2 rounded-md border border-border bg-card p-3 text-[11px] leading-relaxed text-muted-foreground">
+            <div className="font-semibold text-foreground">Cite this dashboard</div>
+            <p className="mt-1">CINI &amp; Murshidabad District Administration ({new Date().getFullYear()}). <em>Murshidabad Child Protection Dashboard.</em> Public knowledge resource. Retrieved from this site.</p>
+          </div>
         </div>
         <div>
           <div className="text-xs font-semibold uppercase tracking-wider text-foreground">Data Sources</div>

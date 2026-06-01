@@ -1,75 +1,58 @@
 
-## Goal
-Integrate every finding from the new "Crime against Children" draft into the site, and add geographic North/South/East/West/Central cluster filtering on the hotspot map.
+# Goal
+Turn the dashboard into an attractive, informative public + research portal by ingesting the newly uploaded HMIS (Health Management Information System) sub-centre datasets for **Khargram, Bharatpur II, Suti II, Murshidabad-Jiaganj, and the 36-SC consolidated workbook**, plus the PW Registration line-list, alongside the existing Crime-against-Children draft. Polish the UI for public viewing.
 
-## 1. Data layer updates (`src/data/blocks.ts` + new `src/data/crime.ts`)
+## 1. Data ingestion (build-time, no backend changes)
 
-Refresh per-block numbers using the PDF's exact values for the 14 blocks covered: Murshidabad-Jiaganj (TP 2760, CMRTS 75, FIRs 51), Lalgola (5445/57/65), Kandi (3522/23/28), Bhagwangola I (3483/114/18), Bhagwangola II (2661/71/25), Farakka (3361/19/22), Nabagram (3040/69/18), Khargram (3909/39/13), Samserganj (4548/49/26), Sagardighi (4559/32/10), Burwan (2641/20/15), Bharatpur I (2112/21/20), Bharatpur II (1734/17/13), Suti I (2909/22/14), Raghunathganj I+II (7201/78/15), Raninagar I (3165/51/25), Raninagar II (2990/21/25). Recompute reportingSilence from the published CMRTS-vs-TP and FIR-vs-TP ratios.
+Add a Node build script `scripts/ingest-hmis.ts` that reads the uploaded `.xlsx`/`.xls` files from `src/data/raw/` and emits typed JSON to `src/data/hmis.generated.ts`. We commit the generated TS so the runtime stays static.
 
-Add a new `compass` field per block (`N | S | E | W | C`) so the map can filter by cardinal cluster. Add `policeStation` per block.
+Datasets emitted:
+- `PW_REGISTRATION` — per sub-centre: projected pop, estimated PW, total registered, 1st-trimester %, high-risk %, severe-anaemic %. (Source: `PW_Registration_05_07_2025_10_51_47.xlsx`, FY 2024-25.)
+- `SC_HMIS_2024_25` — 36 sub-centres × key indicators from `APRIL_2024_to_MARCH_2025_SC_wise_HMIS_Data.xlsx` (ANC, institutional delivery, immunisation, FP-Antara doses, anaemia).
+- `BLOCK_HMIS` — block-level rollups for Khargram (Apr–Jul 2025 + Aug 2025), Bharatpur II, Suti II, Murshidabad-Jiaganj.
+- `FP_ANTARA_TREND` — injectable contraceptive doses 1–4 per SC (from "FP Antara Analysis" sheet).
+- `TEENAGE_PREG_BY_SC` — derived: teenage-pregnancy share per SC using PW age-band columns.
 
-Create `src/data/crime.ts` with:
-- `POLICE_STATION_CASES` — per-PS category breakdown (e.g. Lalgola PS 65 cases split into POCSO+Child Marriage 13, POCSO+Rape 12, POCSO+Kidnapping 19, etc.) for all 14 stations from the doc.
-- `PS_FREQUENCY_2024` and `PS_FREQUENCY_2025` — high-frequency PS lists (Lalgola 38, Murshidabad 23, Shamserganj 18, Kandi 15, Farakka 14…).
-- `ECOURTS_YEAR_COMPARISON` — 2024 (201 cases) vs 2025 (226 cases) with category split.
-- `CMRTS_TREND` — 130 (2023) → 471 (2024) → 929 (2025).
-- `NFHS_TREND` — child marriage 53.6%→55.3%; teenage pregnancy 29.5%→20.6%.
-- `DAR_SUMMARY` — Murshidabad PD 208 cases (PCMA 97, POCSO 104, Kidnap 20, Trafficking 17; multi-convict 50, child-convicts 18, avg age 28.5) and Jangipur PD 25 cases (PCMA 8, POCSO 17, Rape 3; child-convicts 9, multi-convict 6, avg age 26).
-- `LANDMARK_VERDICT` — the 9-yr-old victim case verdict text (death sentence + life imprisonment, POCSO §6).
-- `JANGIPUR_PD_BLOCKS` — Farakka, Samserganj, Suti I, Suti II, Raghunathganj I/II, Sagardighi.
-- `LIMITATIONS` — Berhampore court missing, FIR-CMRTS not joined, pendency not analysed.
+Each record carries `{block, subCentre, indicator, value, period}` to enable filtering.
 
-## 2. Map: cardinal cluster filter (`MurshidabadMap.tsx` + `/map`)
+## 2. New page — `/hmis` (Health Indicators)
 
-Add a top filter bar above the geographic Leaflet map with chips: **All · North · South · East · West · Central**. Selecting a direction dims non-matching blocks (fillOpacity 0.15) and zooms-fits to the selected subset. Compass groupings:
-- **N**: Farakka, Samserganj, Suti I/II, Raghunathganj I/II, Sagardighi, Lalgola, Bhagwangola I/II, Raninagar I/II, Jalangi
-- **C**: Murshidabad-Jiaganj, Berhampore, Beldanga I/II, Hariharpara, Nowda
-- **E**: Domkol, Raninagar I/II edge (border)
-- **S**: Bharatpur I/II, Burwan, Khargram, Kandi
-- **W**: Nabagram, Sagardighi west, Khargram west
+Route: `src/routes/hmis.tsx`. Sections:
+- **Hero strip**: 4 KPIs — total PW registered (district-rolled), % 1st-trimester registration, % high-risk PW, % severe anaemic.
+- **Block selector + Sub-centre drill-down table** (shadcn `Table` + search) — sortable on every indicator.
+- **Antara FP trend** — small-multiple line charts per SC (Recharts), one per dose 1→4 to show drop-off (a public-health red flag).
+- **Anaemia & high-risk heatstrip** — horizontal bar with colour ramp per SC.
+- **Teenage pregnancy by SC** — derived bars, linked back to the Vulnerability Matrix.
+- **Methodology card** at the bottom citing HMIS / NHM as the source and the data window.
 
-Also add an indicator selector (Pregnancies / Child Marriages / FIRs / Reporting Silence) that reshades the map.
+Add `/hmis` to header nav and footer.
 
-## 3. Home (`/`)
-- Update KPIs to PDF figures: NFHS-V child marriage **55.3%** (↑1.7), teenage pregnancy **20.6%**, CMRTS prevented YoY **130→471→929** (mini sparkline), eCourts 2024 vs 2025 (**201 → 226**, +12%).
-- Add a "DAR Snapshot" strip: 208 cases in Murshidabad PD + 25 in Jangipur PD over May–Nov 2025.
-- Embed cardinal-filter map preview.
+## 3. Wire HMIS data into existing pages
 
-## 4. Hotspot Map page (`/map`)
-- Cardinal filter (above) + indicator selector.
-- New right-rail card: "Top Police Stations by Case Frequency (2025)" with Lalgola 38 leading.
-- Block detail drawer extended: shows police station name + case-category breakdown + 2024 vs 2025 trend + reporting discrepancy ratios.
+- **Home (`/`)** — add a 4-card "Health Snapshot" row between the existing KPI strip and the map: institutional delivery %, full immunisation %, severe-anaemic PW %, teenage-pregnancy %. Add a one-line "Where the data comes from" caption with source chips (HMIS, eCourts, CMRTS, NFHS-V, DAR).
+- **Hotspot Map (`/map`)** — extend the block-detail drawer with a "Health profile" mini-section (ANC, institutional delivery, anaemia) sourced from `BLOCK_HMIS` when available, with a clear "Data not yet ingested" fallback for the other 22 blocks.
+- **Vulnerability Matrix (`/matrix`)** — add a third axis-toggle: "Teenage pregnancy %" derived from PW data, so the bubble chart can be reshaded by health vs. justice indicators.
+- **Insights (`/insights`)** — add two charts: "FP-Antara drop-off curve" (Doses 1→4 across 36 SCs) and "1st-trimester PW registration vs district target" with a "What this means" caption.
+- **Clusters (`/clusters`)** — the Khargram + Bharatpur II + Suti II cluster cards get a real HMIS factsheet panel instead of placeholder copy.
 
-## 5. Data Insights (`/insights`)
-Add three new charts:
-- **CMRTS Prevention Trend** (bar) 2023/2024/2025.
-- **eCourts 2024 vs 2025** grouped bar by category (POCSO+Child Marriage 15→44, POCSO+Kidnapping 67→67, Sexual Harassment 43, Sexual Assault 53→102).
-- **Top PS Case Frequency 2024 vs 2025** horizontal bar.
-- **DAR Legislation Mix** donut for Murshidabad PD + Jangipur PD.
-Each gets a "What this means" caption.
+## 4. Visual polish for public viewing
 
-## 6. Vulnerability Matrix (`/matrix`)
-- Recompute X (reporting silence) and Y (TP volume) from the refreshed numbers.
-- Add a third dimension via point size = child-marriage cases prevented (CMRTS).
-- Add a "Discrepancy Ratio" toggle: switch Y to FIRs/TP × 100 to spotlight the silent quadrant (Khargram 0.003%, Sagardighi 0.005%, Samserganj 0.005%).
+- **Hero (`/`)** — replace the current Hero with a fuller editorial header: large display heading, lead paragraph, three trust chips ("26 blocks · 36 sub-centres · 14 police stations"), source pills, scroll cue. Keep existing palette tokens — no new colours.
+- **PageHeader** — add an optional `stats` slot rendering 3 inline stats under the lead, so every section page shows context (e.g., on `/hmis`: "36 SCs · FY 2024-25 · NHM HMIS").
+- **KpiCard** — add a `trend` prop (sparkline + delta chip) so KPIs can show ↑/↓ vs baseline; reuse on Home, `/hmis`, `/insights`.
+- **Footer** — add a "For researchers" block linking `/hmis`, `/insights`, `/publications`, and a "Cite this dashboard" snippet (APA + plain-text), plus the existing source links.
+- **Header** — add `/hmis` to the top nav and a small "Public dashboard" badge.
+- **Typography pass** — keep the existing serif display / sans body pair; tighten section spacing, lift section eyebrows to uppercase tracked labels.
+- **Accessibility** — ensure all new charts have a textual `<caption>`/summary, and the SC drill-down table has visible focus states.
 
-## 7. Red Flags (`/red-flags`)
-Add five new evidence cards from the PDF:
-- **The 0.003% Justice Gap — Khargram** (3,909 TP vs 13 FIRs).
-- **Sagardighi & Samserganj — vanishing reporting** (0.005% FIR ratio).
-- **Lalgola = district crime epicentre** (Lalgola PS 38 cases in 2025, top of district).
-- **Raghunathganj combined paradox** (7,201 TP — highest in dataset — only 15 FIRs).
-- **Landmark Verdict** — the 9-year-old victim, Dinabandhu Halder death sentence under POCSO §6, as proof the system *can* deliver when cases reach court.
-Each retains the "What should be done here?" CTA.
+## 5. Technical notes
 
-## 8. Cluster Stories (`/clusters`)
-- Add a **Jangipur Police District** narrative card (its 7 blocks, 1,054.5 km², ~1.9M population, est. 1 Jan 2020, focus = border security + anti-trafficking).
-- Add the cardinal **N/S/E/W/C** roll-up beside the existing 7 thematic clusters: aggregate TP, CMRTS, FIRs and discrepancy ratios per direction.
-- Add a "Limitations of this Analysis" footer (Berhampore court gap, no FIR-CMRTS join, no pendency).
-
-## 9. Header / Footer
-- Footer: add "eCourts Murshidabad", "CMRTS Portal", "HMIS", "Daily Arrest Report" as data-source links.
-- Add new top-nav item linking to a small **Methodology & Limitations** section on `/insights`.
+- New deps: none (Recharts and shadcn already in the stack). The ingest script uses `xlsx` (npm) at build time only.
+- Raw uploads land in `src/data/raw/` (gitignored binaries optional); generated output is `src/data/hmis.generated.ts` (committed). All HMIS reads go through `src/data/hmis.ts` which re-exports the generated module + helpers (`getBlockHMIS`, `getSCByBlock`, `computeTeenagePregRate`).
+- The crime PDF is already integrated; we only add cross-links from `/hmis` cards into the matching `/red-flags` and `/clusters` narratives.
+- No DB schema changes. No edge functions. No new secrets.
 
 ## Out of scope
-No backend schema changes — all new data is analytical reference and lives in `src/data/`.
+- Per-block ingestion for the 22 blocks not in the upload set (placeholder "data pending" cards instead).
+- Authenticated researcher-only views; everything is public.
+- Re-doing the Leaflet map styling — only the drawer content changes.
