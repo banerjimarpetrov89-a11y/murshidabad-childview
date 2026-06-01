@@ -16,6 +16,7 @@ import { Route as PublicationsRouteImport } from './routes/publications'
 import { Route as MatrixRouteImport } from './routes/matrix'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as HmisRouteImport } from './routes/hmis'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ClustersRouteImport } from './routes/clusters'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -57,6 +58,11 @@ const InsightsRoute = InsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HmisRoute = HmisRouteImport.update({
+  id: '/hmis',
+  path: '/hmis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
   '/events': typeof EventsRoute
+  '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
   '/map': typeof MapRoute
   '/matrix': typeof MatrixRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
   '/events': typeof EventsRoute
+  '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
   '/map': typeof MapRoute
   '/matrix': typeof MatrixRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
   '/events': typeof EventsRoute
+  '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
   '/map': typeof MapRoute
   '/matrix': typeof MatrixRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/clusters'
     | '/events'
+    | '/hmis'
     | '/insights'
     | '/map'
     | '/matrix'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/clusters'
     | '/events'
+    | '/hmis'
     | '/insights'
     | '/map'
     | '/matrix'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/clusters'
     | '/events'
+    | '/hmis'
     | '/insights'
     | '/map'
     | '/matrix'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   ClustersRoute: typeof ClustersRoute
   EventsRoute: typeof EventsRoute
+  HmisRoute: typeof HmisRoute
   InsightsRoute: typeof InsightsRoute
   MapRoute: typeof MapRoute
   MatrixRoute: typeof MatrixRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hmis': {
+      id: '/hmis'
+      path: '/hmis'
+      fullPath: '/hmis'
+      preLoaderRoute: typeof HmisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   ClustersRoute: ClustersRoute,
   EventsRoute: EventsRoute,
+  HmisRoute: HmisRoute,
   InsightsRoute: InsightsRoute,
   MapRoute: MapRoute,
   MatrixRoute: MatrixRoute,
@@ -292,3 +313,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
