@@ -1,7 +1,7 @@
 // AUTO-GENERATED from HMIS uploads (Samserganj block, FY 2024-25)
 export type SCRecord = {
   sc: string; newPW: number; pw15_19: number; firstTri: number;
-  del15_19: number; hrpAnte: number; bcg: number;
+  instDel?: number; del15_19: number; hrpAnte: number; bcg: number;
   d1?: number; d2?: number; d3?: number; d4?: number;
   firstTriPct?: number; highRiskPct?: number; anaemicPct?: number;
 };
