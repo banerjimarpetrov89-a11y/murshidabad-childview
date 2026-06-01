@@ -7,6 +7,7 @@ const NAV = [
   { to: "/", label: "Home" },
   { to: "/map", label: "Hotspot Map" },
   { to: "/insights", label: "Data Insights" },
+  { to: "/hmis", label: "HMIS Health" },
   { to: "/matrix", label: "Vulnerability Matrix" },
   { to: "/red-flags", label: "Red Flags" },
   { to: "/clusters", label: "Clusters" },
