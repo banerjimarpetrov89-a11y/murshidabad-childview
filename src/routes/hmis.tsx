@@ -4,6 +4,7 @@ import { Activity, Heart, Droplet, AlertTriangle, Search } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { KpiCard } from "@/components/site/KpiCard";
 import { SC_HMIS, BLOCK_HMIS_SUMMARY, HMIS_DISTRICT_ROLLUP } from "@/data/hmis";
+import SubcentreMap from "@/components/site/SubcentreMap";
 import {
   INFANT_DEATHS_2025_26,
   INFANT_DEATH_TOTAL,
@@ -162,6 +163,17 @@ function HmisPage() {
         </div>
       </section>
 
+      {/* Sub-centre Google map */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre map · Samserganj block</div>
+          <h2 className="mt-1 font-serif text-2xl tracking-tight">36 sub-centres, plotted with their HMIS load</h2>
+          <p className="mt-1 mb-4 text-sm text-muted-foreground">
+            Each marker is one sub-centre. Click for pregnancies tracked, 1st-trimester ANC %, high-risk antenatal %, BCG, and Antara doses 1→4. Marker colour reflects high-risk antenatal share; size reflects pregnant women tracked.
+          </p>
+          <SubcentreMap />
+        </div>
+      </section>
 
       {/* Teen pregnancy ranking */}
       <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
