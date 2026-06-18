@@ -4,6 +4,16 @@ import { Activity, Heart, Droplet, AlertTriangle, Search } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { KpiCard } from "@/components/site/KpiCard";
 import { SC_HMIS, BLOCK_HMIS_SUMMARY, HMIS_DISTRICT_ROLLUP } from "@/data/hmis";
+import {
+  INFANT_DEATHS_2025_26,
+  INFANT_DEATH_TOTAL,
+  INFANT_DEATH_PERIOD,
+  MATERNAL_DEATHS_2025_26,
+  MATERNAL_DEATH_DISTRICT_TOTAL,
+  MATERNAL_DEATH_GRAND_TOTAL,
+  MATERNAL_DEATH_PERIOD,
+  NEW_BLOCK_HMIS,
+} from "@/data/mortality";
 
 export const Route = createFileRoute("/hmis")({
   head: () => ({
@@ -78,6 +88,80 @@ function HmisPage() {
           ))}
         </div>
       </section>
+
+      {/* Additional block ingests */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
+        <div className="mb-4 flex items-end justify-between">
+          <h2 className="font-serif text-2xl tracking-tight">Newly ingested block HMIS workbooks</h2>
+          <div className="text-xs text-muted-foreground">FY 2024-25 & 2025-26 cumulative</div>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          {NEW_BLOCK_HMIS.map((b) => (
+            <div key={b.block} className="rounded-xl border border-border bg-card p-4">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">{b.period}</div>
+              <h3 className="mt-1 font-serif text-lg tracking-tight">{b.block}</h3>
+              <div className="mt-2 text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground tabular-nums">{b.scCount}</span> sub-centres
+              </div>
+              <p className="mt-2 text-[11px] text-muted-foreground leading-relaxed">{b.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Infant Deaths */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-critical)]">Infant deaths by place of death</div>
+              <h2 className="mt-1 font-serif text-2xl tracking-tight">{INFANT_DEATH_TOTAL.toLocaleString("en-IN")} infant deaths recorded · {INFANT_DEATH_PERIOD}</h2>
+              <p className="mt-1 text-sm text-muted-foreground max-w-3xl">
+                Tertiary referral concentration: Murshidabad MCH alone accounts for{" "}
+                <strong className="text-foreground">{((643 / INFANT_DEATH_TOTAL) * 100).toFixed(0)}%</strong> of all recorded infant deaths, and the five SDH / MCH facilities together account for{" "}
+                <strong className="text-foreground">{(((643 + 182 + 101 + 96 + 76) / INFANT_DEATH_TOTAL) * 100).toFixed(0)}%</strong> — a signal that block-level newborn care is referring late or upward.
+              </p>
+            </div>
+          </div>
+          <ul className="mt-5 grid gap-1.5 md:grid-cols-2">
+            {INFANT_DEATHS_2025_26.map((r) => {
+              const max = INFANT_DEATHS_2025_26[0].deaths;
+              const pct = (r.deaths / max) * 100;
+              return (
+                <li key={r.unit} className="text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{r.unit}</span>
+                    <span className="tabular-nums text-muted-foreground">{r.deaths}</span>
+                  </div>
+                  <div className="mt-1 h-1.5 overflow-hidden rounded bg-secondary">
+                    <div className="h-full" style={{ width: `${Math.max(1.5, pct)}%`, backgroundColor: r.deaths >= 50 ? "var(--risk-critical)" : r.deaths >= 10 ? "var(--risk-high)" : "var(--risk-moderate)" }} />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      {/* Maternal Deaths */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-critical)]">Maternal deaths by block / municipality</div>
+          <h2 className="mt-1 font-serif text-2xl tracking-tight">
+            {MATERNAL_DEATH_DISTRICT_TOTAL} district deaths · grand total {MATERNAL_DEATH_GRAND_TOTAL} (incl. referrals)
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">{MATERNAL_DEATH_PERIOD}. Includes deaths reported from neighbouring districts and Jharkhand referrals into Murshidabad facilities.</p>
+          <div className="mt-5 grid gap-2 md:grid-cols-3">
+            {MATERNAL_DEATHS_2025_26.map((r) => (
+              <div key={r.unit} className="flex items-center justify-between rounded-md border border-border/60 px-3 py-2 text-xs">
+                <span className="font-medium">{r.unit}</span>
+                <span className={`tabular-nums font-semibold ${r.deaths >= 5 ? "text-[color:var(--risk-critical)]" : r.deaths >= 2 ? "text-[color:var(--risk-high)]" : "text-muted-foreground"}`}>{r.deaths}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Teen pregnancy ranking */}
       <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
