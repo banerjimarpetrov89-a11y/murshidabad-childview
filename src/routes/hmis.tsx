@@ -4,6 +4,16 @@ import { Activity, Heart, Droplet, AlertTriangle, Search } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { KpiCard } from "@/components/site/KpiCard";
 import { SC_HMIS, BLOCK_HMIS_SUMMARY, HMIS_DISTRICT_ROLLUP } from "@/data/hmis";
+import {
+  INFANT_DEATHS_2025_26,
+  INFANT_DEATH_TOTAL,
+  INFANT_DEATH_PERIOD,
+  MATERNAL_DEATHS_2025_26,
+  MATERNAL_DEATH_DISTRICT_TOTAL,
+  MATERNAL_DEATH_GRAND_TOTAL,
+  MATERNAL_DEATH_PERIOD,
+  NEW_BLOCK_HMIS,
+} from "@/data/mortality";
 
 export const Route = createFileRoute("/hmis")({
   head: () => ({
