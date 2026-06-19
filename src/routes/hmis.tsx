@@ -5,6 +5,8 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { KpiCard } from "@/components/site/KpiCard";
 import { SC_HMIS, BLOCK_HMIS_SUMMARY, HMIS_DISTRICT_ROLLUP } from "@/data/hmis";
 import SubcentreMap from "@/components/site/SubcentreMap";
+import SCReportCard from "@/components/site/SCReportCard";
+import { MULTI_BLOCKS, TEEN_HOTSPOTS_DISTRICT, type BlockPack } from "@/data/multi-block-hmis";
 import {
   INFANT_DEATHS_2025_26,
   INFANT_DEATH_TOTAL,
@@ -15,6 +17,7 @@ import {
   MATERNAL_DEATH_PERIOD,
   NEW_BLOCK_HMIS,
 } from "@/data/mortality";
+
 
 export const Route = createFileRoute("/hmis")({
   head: () => ({
