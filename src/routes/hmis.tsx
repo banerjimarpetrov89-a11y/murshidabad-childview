@@ -229,6 +229,97 @@ function HmisPage() {
         </div>
       </section>
 
+      {/* Sub-centre report cards — one per SC */}
+      <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre report cards</div>
+            <h2 className="mt-1 font-serif text-2xl tracking-tight">Report card for every sub-centre uploaded</h2>
+            <p className="mt-1 text-sm text-muted-foreground max-w-3xl">
+              One card per sub-centre · {SC_HMIS.length} cards total. Filter by name using the search box below; each card summarises pregnancy load, ANC quality, risk share, immunisation and family-planning continuity.
+            </p>
+          </div>
+          <label className="relative">
+            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Filter cards…"
+              className="w-56 rounded-md border border-border bg-background py-1.5 pl-8 pr-3 text-xs outline-none focus:border-primary"
+            />
+          </label>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {rows.map((r) => {
+            const hr = r.highRiskPct ?? 0;
+            const ft = r.firstTriPct ?? 0;
+            const teenPct = r.newPW > 0 ? (r.pw15_19 / r.newPW) * 100 : 0;
+            const riskColor = hr >= 65 ? "var(--risk-critical)" : hr >= 55 ? "var(--risk-high)" : hr >= 45 ? "var(--risk-moderate)" : "var(--primary)";
+            const antaraTotal = (r.d1 ?? 0) + (r.d2 ?? 0) + (r.d3 ?? 0) + (r.d4 ?? 0);
+            const retention = (r.d1 ?? 0) > 0 ? ((r.d4 ?? 0) / (r.d1 ?? 1)) * 100 : 0;
+            return (
+              <article key={r.sc} className="rounded-xl border border-border bg-card p-4 transition hover:border-primary/40">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Samserganj · FY 2024-25</div>
+                    <h3 className="mt-0.5 font-serif text-base leading-tight tracking-tight">{r.sc}</h3>
+                  </div>
+                  <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style={{ backgroundColor: riskColor }}>
+                    {hr >= 65 ? "Critical" : hr >= 55 ? "High" : hr >= 45 ? "Moderate" : "Watch"}
+                  </span>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                  <div className="rounded-md bg-secondary/40 px-1 py-2">
+                    <div className="text-base font-bold tabular-nums">{r.newPW}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">New PW</div>
+                  </div>
+                  <div className="rounded-md bg-secondary/40 px-1 py-2">
+                    <div className="text-base font-bold tabular-nums">{ft.toFixed(0)}%</div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">1st-tri ANC</div>
+                  </div>
+                  <div className="rounded-md bg-secondary/40 px-1 py-2">
+                    <div className="text-base font-bold tabular-nums" style={{ color: riskColor }}>{hr.toFixed(0)}%</div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">High-risk</div>
+                  </div>
+                </div>
+
+                <ul className="mt-3 space-y-1.5 text-[11px]">
+                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">Teen PW (15-19)</span><span className="tabular-nums font-semibold">{r.pw15_19} · {teenPct.toFixed(0)}%</span></li>
+                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">High-risk ante (HRP)</span><span className="tabular-nums font-semibold">{r.hrpAnte}</span></li>
+                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">Teen deliveries</span><span className="tabular-nums font-semibold">{r.del15_19}</span></li>
+                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">BCG immunisation</span><span className="tabular-nums font-semibold">{r.bcg}</span></li>
+                </ul>
+
+                {antaraTotal > 0 && (
+                  <div className="mt-3 border-t border-border/60 pt-2.5">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
+                      <span>Antara D1→D4</span>
+                      <span className="tabular-nums">{r.d1}·{r.d2}·{r.d3}·{r.d4} · retn {retention.toFixed(0)}%</span>
+                    </div>
+                    <div className="mt-1.5 flex h-1.5 gap-0.5">
+                      {[r.d1, r.d2, r.d3, r.d4].map((v, i) => (
+                        <div key={i} className="rounded-sm" style={{
+                          width: `${((v ?? 0) / Math.max(r.d1 ?? 1, 1)) * 100}%`,
+                          backgroundColor: ["var(--primary)", "var(--risk-moderate)", "var(--risk-high)", "var(--risk-critical)"][i],
+                          minWidth: (v ?? 0) > 0 ? 3 : 0,
+                        }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </article>
+            );
+          })}
+          {rows.length === 0 && (
+            <div className="col-span-full rounded-md border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
+              No sub-centre matches "{q}".
+            </div>
+          )}
+        </div>
+      </section>
+
+
       {/* SC drill-down table */}
       <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
         <div className="rounded-xl border border-border bg-card">
