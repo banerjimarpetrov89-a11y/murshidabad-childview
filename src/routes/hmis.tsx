@@ -376,3 +376,118 @@ function Row({ k, v, tone }: { k: string; v: string; tone?: "risk" }) {
     </li>
   );
 }
+
+function BlockSection({ pack }: { pack: BlockPack }) {
+  const [q, setQ] = useState("");
+  const filtered = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    return s ? pack.scs.filter((r) => r.sc.toLowerCase().includes(s)) : pack.scs;
+  }, [q, pack.scs]);
+
+  const totalPW = pack.scs.reduce((a, r) => a + r.newPW, 0);
+  const totalTeen = pack.scs.reduce((a, r) => a + r.pw15_19, 0);
+  const teenShare = totalPW ? (totalTeen / totalPW) * 100 : 0;
+  const hrAvg = pack.scs.reduce((a, r) => a + (r.highRiskPct ?? 0), 0) / pack.scs.length;
+  const ftAvg = pack.scs.reduce((a, r) => a + (r.firstTriPct ?? 0), 0) / pack.scs.length;
+
+  const teenTop = [...pack.scs]
+    .map((r) => ({ sc: r.sc, pct: r.newPW > 0 ? (r.pw15_19 / r.newPW) * 100 : 0, n: r.pw15_19 }))
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, 5);
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+      <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">{pack.fyLabel}</div>
+            <h2 className="mt-1 font-serif text-2xl tracking-tight">{pack.block} block · {pack.scs.length} sub-centres</h2>
+            <p className="mt-1 text-sm text-muted-foreground max-w-3xl">{pack.note}</p>
+          </div>
+          <div className="rounded-md border border-dashed border-border bg-secondary/40 px-3 py-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+            Scaffolded placeholder
+          </div>
+        </div>
+
+        {/* Block KPI strip */}
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <MiniStat label="PW tracked" value={totalPW.toLocaleString("en-IN")} />
+          <MiniStat label="1st-tri ANC avg" value={`${ftAvg.toFixed(0)}%`} />
+          <MiniStat label="High-risk avg" value={`${hrAvg.toFixed(0)}%`} tone={hrAvg >= 55 ? "risk" : undefined} />
+          <MiniStat label="Teen share" value={`${teenShare.toFixed(1)}%`} tone="risk" />
+        </div>
+
+        {/* Teen hotspots within block */}
+        <div className="mt-6">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-critical)]">Teen pregnancy hotspots in {pack.block}</div>
+          <ul className="mt-3 grid gap-2 md:grid-cols-2">
+            {teenTop.map((t) => (
+              <li key={t.sc} className="text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">{t.sc}</span>
+                  <span className="tabular-nums text-muted-foreground">{t.n} cases · <strong className="text-foreground">{t.pct.toFixed(1)}%</strong></span>
+                </div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded bg-secondary">
+                  <div className="h-full" style={{ width: `${Math.min(100, t.pct * 3.5)}%`, backgroundColor: "var(--risk-critical)" }} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Map */}
+        <div className="mt-6">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre map · {pack.block}</div>
+          <p className="mb-3 mt-1 text-xs text-muted-foreground">Marker colour = high-risk antenatal band; size ∝ PW tracked. Click for sub-centre detail.</p>
+          <SubcentreMap
+            data={pack.scs}
+            coords={pack.coords}
+            center={pack.centroid}
+            zoom={11}
+            blockLabel={pack.block}
+            height={420}
+          />
+        </div>
+
+        {/* Drill-down: collapsible report cards */}
+        <div className="mt-6">
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre drill-down</div>
+              <h3 className="mt-0.5 font-serif text-lg tracking-tight">Report card per sub-centre · click to collapse</h3>
+            </div>
+            <label className="relative">
+              <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={`Filter ${pack.block}…`}
+                className="w-56 rounded-md border border-border bg-background py-1.5 pl-8 pr-3 text-xs outline-none focus:border-primary"
+              />
+            </label>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((r) => (
+              <SCReportCard key={r.sc} r={r} blockLabel={`${pack.block} · ${pack.fyLabel}`} />
+            ))}
+            {filtered.length === 0 && (
+              <div className="col-span-full rounded-md border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
+                No sub-centre matches "{q}".
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MiniStat({ label, value, tone }: { label: string; value: string; tone?: "risk" }) {
+  return (
+    <div className="rounded-md bg-secondary/40 px-3 py-3">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className={`mt-1 text-xl font-bold tabular-nums ${tone === "risk" ? "text-[color:var(--risk-critical)]" : ""}`}>{value}</div>
+    </div>
+  );
+}
+
