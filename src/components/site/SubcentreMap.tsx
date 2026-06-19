@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { SCRecord } from "@/data/hmis";
 import { SC_HMIS } from "@/data/hmis";
 import { SC_COORDS } from "@/data/sc-coords";
 
@@ -41,7 +42,23 @@ function riskColor(highRiskPct?: number): string {
   return "#059669";
 }
 
-export default function SubcentreMap() {
+type Props = {
+  data?: SCRecord[];
+  coords?: Record<string, [number, number]>;
+  center?: [number, number];
+  zoom?: number;
+  blockLabel?: string;
+  height?: number;
+};
+
+export default function SubcentreMap({
+  data = SC_HMIS,
+  coords = SC_COORDS,
+  center = [24.7833, 87.9667],
+  zoom = 12,
+  blockLabel = "Samserganj",
+  height = 520,
+}: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [err, setErr] = useState<string | null>(null);
 
@@ -52,19 +69,17 @@ export default function SubcentreMap() {
         if (cancelled || !mapRef.current || !window.google?.maps) return;
         const g = window.google.maps;
         const map = new g.Map(mapRef.current, {
-          center: { lat: 24.7833, lng: 87.9667 },
-          zoom: 12,
+          center: { lat: center[0], lng: center[1] },
+          zoom,
           mapTypeControl: false,
           streetViewControl: false,
           fullscreenControl: true,
-          styles: [
-            { featureType: "poi", stylers: [{ visibility: "off" }] },
-          ],
+          styles: [{ featureType: "poi", stylers: [{ visibility: "off" }] }],
         });
         const info = new g.InfoWindow();
         const bounds = new g.LatLngBounds();
-        SC_HMIS.forEach((r) => {
-          const c = SC_COORDS[r.sc];
+        data.forEach((r) => {
+          const c = coords[r.sc];
           if (!c) return;
           const pos = { lat: c[0], lng: c[1] };
           bounds.extend(pos);
@@ -87,6 +102,7 @@ export default function SubcentreMap() {
             info.setContent(`
               <div style="font-family:system-ui,sans-serif;min-width:220px">
                 <div style="font-weight:600;font-size:14px;margin-bottom:6px;color:#0f172a">${r.sc}</div>
+                <div style="font-size:11px;color:#64748b;margin-bottom:6px">${blockLabel}</div>
                 <div style="font-size:12px;color:#334155;line-height:1.6">
                   <div><b>New PW tracked:</b> ${r.newPW}</div>
                   <div><b>Age 15–19 PW:</b> ${r.pw15_19} <span style="color:#64748b">(${teenPct}%)</span></div>
@@ -95,7 +111,7 @@ export default function SubcentreMap() {
                   <div><b>BCG immunised:</b> ${r.bcg}</div>
                   <div><b>Antara doses (1→4):</b> ${r.d1 ?? 0} → ${r.d2 ?? 0} → ${r.d3 ?? 0} → ${r.d4 ?? 0}</div>
                 </div>
-                <div style="font-size:10px;color:#94a3b8;margin-top:6px">Approximate location within Samserganj block</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:6px">Approximate location within ${blockLabel} block</div>
               </div>
             `);
             info.open({ anchor: marker, map });
@@ -107,7 +123,7 @@ export default function SubcentreMap() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [data, coords, center, zoom, blockLabel]);
 
   if (!BROWSER_KEY) {
     return (
@@ -121,8 +137,9 @@ export default function SubcentreMap() {
     <div className="space-y-2">
       <div
         ref={mapRef}
-        className="h-[520px] w-full rounded-lg border bg-muted/20"
-        aria-label="Sub-centre map of Samserganj block"
+        className="w-full rounded-lg border bg-muted/20"
+        style={{ height }}
+        aria-label={`Sub-centre map of ${blockLabel} block`}
       />
       {err && <div className="text-xs text-destructive">{err}</div>}
       <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
@@ -130,7 +147,7 @@ export default function SubcentreMap() {
         <span className="inline-flex items-center gap-1"><span className="inline-block h-3 w-3 rounded-full" style={{ background: "#d97706" }} /> 45–55%</span>
         <span className="inline-flex items-center gap-1"><span className="inline-block h-3 w-3 rounded-full" style={{ background: "#ea580c" }} /> 55–65%</span>
         <span className="inline-flex items-center gap-1"><span className="inline-block h-3 w-3 rounded-full" style={{ background: "#dc2626" }} /> ≥65% high-risk antenatal</span>
-        <span className="ml-auto italic">Marker size ∝ pregnant women tracked. Positions are approximate.</span>
+        <span className="ml-auto italic">Marker size ∝ pregnant women tracked. Positions approximate.</span>
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { KpiCard } from "@/components/site/KpiCard";
 import { SC_HMIS, BLOCK_HMIS_SUMMARY, HMIS_DISTRICT_ROLLUP } from "@/data/hmis";
 import SubcentreMap from "@/components/site/SubcentreMap";
+import SCReportCard from "@/components/site/SCReportCard";
+import { MULTI_BLOCKS, TEEN_HOTSPOTS_DISTRICT, type BlockPack } from "@/data/multi-block-hmis";
 import {
   INFANT_DEATHS_2025_26,
   INFANT_DEATH_TOTAL,
@@ -15,6 +17,7 @@ import {
   MATERNAL_DEATH_PERIOD,
   NEW_BLOCK_HMIS,
 } from "@/data/mortality";
+
 
 export const Route = createFileRoute("/hmis")({
   head: () => ({
@@ -250,67 +253,9 @@ function HmisPage() {
           </label>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {rows.map((r) => {
-            const hr = r.highRiskPct ?? 0;
-            const ft = r.firstTriPct ?? 0;
-            const teenPct = r.newPW > 0 ? (r.pw15_19 / r.newPW) * 100 : 0;
-            const riskColor = hr >= 65 ? "var(--risk-critical)" : hr >= 55 ? "var(--risk-high)" : hr >= 45 ? "var(--risk-moderate)" : "var(--primary)";
-            const antaraTotal = (r.d1 ?? 0) + (r.d2 ?? 0) + (r.d3 ?? 0) + (r.d4 ?? 0);
-            const retention = (r.d1 ?? 0) > 0 ? ((r.d4 ?? 0) / (r.d1 ?? 1)) * 100 : 0;
-            return (
-              <article key={r.sc} className="rounded-xl border border-border bg-card p-4 transition hover:border-primary/40">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Samserganj · FY 2024-25</div>
-                    <h3 className="mt-0.5 font-serif text-base leading-tight tracking-tight">{r.sc}</h3>
-                  </div>
-                  <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style={{ backgroundColor: riskColor }}>
-                    {hr >= 65 ? "Critical" : hr >= 55 ? "High" : hr >= 45 ? "Moderate" : "Watch"}
-                  </span>
-                </div>
-
-                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-md bg-secondary/40 px-1 py-2">
-                    <div className="text-base font-bold tabular-nums">{r.newPW}</div>
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">New PW</div>
-                  </div>
-                  <div className="rounded-md bg-secondary/40 px-1 py-2">
-                    <div className="text-base font-bold tabular-nums">{ft.toFixed(0)}%</div>
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">1st-tri ANC</div>
-                  </div>
-                  <div className="rounded-md bg-secondary/40 px-1 py-2">
-                    <div className="text-base font-bold tabular-nums" style={{ color: riskColor }}>{hr.toFixed(0)}%</div>
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">High-risk</div>
-                  </div>
-                </div>
-
-                <ul className="mt-3 space-y-1.5 text-[11px]">
-                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">Teen PW (15-19)</span><span className="tabular-nums font-semibold">{r.pw15_19} · {teenPct.toFixed(0)}%</span></li>
-                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">High-risk ante (HRP)</span><span className="tabular-nums font-semibold">{r.hrpAnte}</span></li>
-                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">Teen deliveries</span><span className="tabular-nums font-semibold">{r.del15_19}</span></li>
-                  <li className="flex items-baseline justify-between"><span className="text-muted-foreground">BCG immunisation</span><span className="tabular-nums font-semibold">{r.bcg}</span></li>
-                </ul>
-
-                {antaraTotal > 0 && (
-                  <div className="mt-3 border-t border-border/60 pt-2.5">
-                    <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
-                      <span>Antara D1→D4</span>
-                      <span className="tabular-nums">{r.d1}·{r.d2}·{r.d3}·{r.d4} · retn {retention.toFixed(0)}%</span>
-                    </div>
-                    <div className="mt-1.5 flex h-1.5 gap-0.5">
-                      {[r.d1, r.d2, r.d3, r.d4].map((v, i) => (
-                        <div key={i} className="rounded-sm" style={{
-                          width: `${((v ?? 0) / Math.max(r.d1 ?? 1, 1)) * 100}%`,
-                          backgroundColor: ["var(--primary)", "var(--risk-moderate)", "var(--risk-high)", "var(--risk-critical)"][i],
-                          minWidth: (v ?? 0) > 0 ? 3 : 0,
-                        }} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </article>
-            );
-          })}
+          {rows.map((r) => (
+            <SCReportCard key={r.sc} r={r} blockLabel="Samserganj · FY 2024-25" />
+          ))}
           {rows.length === 0 && (
             <div className="col-span-full rounded-md border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
               No sub-centre matches "{q}".
@@ -318,6 +263,40 @@ function HmisPage() {
           )}
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* District-wide teenage pregnancy shortlist across new blocks    */}
+      {/* ============================================================== */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 md:px-6">
+        <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-critical)]">Teen pregnancy shortlist · 7 newly mapped blocks</div>
+          <h2 className="mt-1 font-serif text-2xl tracking-tight">Top SCs by 15-19 ANC share — district view</h2>
+          <p className="mt-1 text-sm text-muted-foreground max-w-3xl">
+            Top 3 sub-centres from each of Suti II, Murshidabad-Jiaganj, Khargram, Bharatpur II, Bhagwangola I, Nabagram and Sagardighi, ranked by adolescent share of new ANC. Block-level scaffolded values pending HMIS upload.
+          </p>
+          <ul className="mt-5 grid gap-2 md:grid-cols-2">
+            {TEEN_HOTSPOTS_DISTRICT.slice(0, 18).map((h) => (
+              <li key={`${h.block}-${h.sc}`} className="text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">{h.sc} <span className="text-muted-foreground">· {h.block}</span></span>
+                  <span className="tabular-nums text-muted-foreground">{h.n} of {h.newPW} · <strong className="text-foreground">{h.pct.toFixed(1)}%</strong></span>
+                </div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded bg-secondary">
+                  <div className="h-full" style={{ width: `${Math.min(100, h.pct * 3.5)}%`, backgroundColor: "var(--risk-critical)" }} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* Per-block sections: factsheet + map + collapsible report cards */}
+      {/* ============================================================== */}
+      {MULTI_BLOCKS.map((b) => (
+        <BlockSection key={b.block} pack={b} />
+      ))}
+
 
 
       {/* SC drill-down table */}
@@ -397,3 +376,118 @@ function Row({ k, v, tone }: { k: string; v: string; tone?: "risk" }) {
     </li>
   );
 }
+
+function BlockSection({ pack }: { pack: BlockPack }) {
+  const [q, setQ] = useState("");
+  const filtered = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    return s ? pack.scs.filter((r) => r.sc.toLowerCase().includes(s)) : pack.scs;
+  }, [q, pack.scs]);
+
+  const totalPW = pack.scs.reduce((a, r) => a + r.newPW, 0);
+  const totalTeen = pack.scs.reduce((a, r) => a + r.pw15_19, 0);
+  const teenShare = totalPW ? (totalTeen / totalPW) * 100 : 0;
+  const hrAvg = pack.scs.reduce((a, r) => a + (r.highRiskPct ?? 0), 0) / pack.scs.length;
+  const ftAvg = pack.scs.reduce((a, r) => a + (r.firstTriPct ?? 0), 0) / pack.scs.length;
+
+  const teenTop = [...pack.scs]
+    .map((r) => ({ sc: r.sc, pct: r.newPW > 0 ? (r.pw15_19 / r.newPW) * 100 : 0, n: r.pw15_19 }))
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, 5);
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+      <div className="rounded-xl border border-border bg-card p-5 md:p-7">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">{pack.fyLabel}</div>
+            <h2 className="mt-1 font-serif text-2xl tracking-tight">{pack.block} block · {pack.scs.length} sub-centres</h2>
+            <p className="mt-1 text-sm text-muted-foreground max-w-3xl">{pack.note}</p>
+          </div>
+          <div className="rounded-md border border-dashed border-border bg-secondary/40 px-3 py-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+            Scaffolded placeholder
+          </div>
+        </div>
+
+        {/* Block KPI strip */}
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <MiniStat label="PW tracked" value={totalPW.toLocaleString("en-IN")} />
+          <MiniStat label="1st-tri ANC avg" value={`${ftAvg.toFixed(0)}%`} />
+          <MiniStat label="High-risk avg" value={`${hrAvg.toFixed(0)}%`} tone={hrAvg >= 55 ? "risk" : undefined} />
+          <MiniStat label="Teen share" value={`${teenShare.toFixed(1)}%`} tone="risk" />
+        </div>
+
+        {/* Teen hotspots within block */}
+        <div className="mt-6">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-critical)]">Teen pregnancy hotspots in {pack.block}</div>
+          <ul className="mt-3 grid gap-2 md:grid-cols-2">
+            {teenTop.map((t) => (
+              <li key={t.sc} className="text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">{t.sc}</span>
+                  <span className="tabular-nums text-muted-foreground">{t.n} cases · <strong className="text-foreground">{t.pct.toFixed(1)}%</strong></span>
+                </div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded bg-secondary">
+                  <div className="h-full" style={{ width: `${Math.min(100, t.pct * 3.5)}%`, backgroundColor: "var(--risk-critical)" }} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Map */}
+        <div className="mt-6">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre map · {pack.block}</div>
+          <p className="mb-3 mt-1 text-xs text-muted-foreground">Marker colour = high-risk antenatal band; size ∝ PW tracked. Click for sub-centre detail.</p>
+          <SubcentreMap
+            data={pack.scs}
+            coords={pack.coords}
+            center={pack.centroid}
+            zoom={11}
+            blockLabel={pack.block}
+            height={420}
+          />
+        </div>
+
+        {/* Drill-down: collapsible report cards */}
+        <div className="mt-6">
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Sub-centre drill-down</div>
+              <h3 className="mt-0.5 font-serif text-lg tracking-tight">Report card per sub-centre · click to collapse</h3>
+            </div>
+            <label className="relative">
+              <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={`Filter ${pack.block}…`}
+                className="w-56 rounded-md border border-border bg-background py-1.5 pl-8 pr-3 text-xs outline-none focus:border-primary"
+              />
+            </label>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((r) => (
+              <SCReportCard key={r.sc} r={r} blockLabel={`${pack.block} · ${pack.fyLabel}`} />
+            ))}
+            {filtered.length === 0 && (
+              <div className="col-span-full rounded-md border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
+                No sub-centre matches "{q}".
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MiniStat({ label, value, tone }: { label: string; value: string; tone?: "risk" }) {
+  return (
+    <div className="rounded-md bg-secondary/40 px-3 py-3">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className={`mt-1 text-xl font-bold tabular-nums ${tone === "risk" ? "text-[color:var(--risk-critical)]" : ""}`}>{value}</div>
+    </div>
+  );
+}
+
