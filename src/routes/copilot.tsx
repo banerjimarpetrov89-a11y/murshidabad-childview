@@ -80,11 +80,8 @@ function CopilotPage() {
                   Drafting briefing…
                 </div>
               )}
-              {error && (
-                <div className="rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm text-destructive">
-                  {error.message || "Something went wrong. Please try again."}
-                </div>
-              )}
+
+
             </div>
 
             <form
