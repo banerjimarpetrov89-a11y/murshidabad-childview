@@ -35,10 +35,11 @@ function CopilotPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const transport = useRef(new DefaultChatTransport({ api: "/api/chat" })).current;
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, status } = useChat({
     id: "copilot",
     transport,
   });
+
 
   const isLoading = status === "submitted" || status === "streaming";
 
