@@ -58,7 +58,7 @@ function CopilotPage() {
       <PageHeader
         eyebrow="AI Copilot"
         title="District Child Protection Copilot"
-        description="Ask data-grounded questions across the Murshidabad dashboard. Responses are formatted as professional policy briefings with recommended actions."
+        lead="Ask data-grounded questions across the Murshidabad dashboard. Responses are formatted as professional policy briefings with recommended actions."
       />
 
       <div className="mx-auto max-w-5xl px-4 pb-12 md:px-6">

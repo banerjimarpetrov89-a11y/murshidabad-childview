@@ -18,10 +18,12 @@ import { Route as MapRouteImport } from './routes/map'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as HmisRouteImport } from './routes/hmis'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as ClustersRouteImport } from './routes/clusters'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ActionPlanRouteImport } from './routes/action-plan'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const StakeholdersRoute = StakeholdersRouteImport.update({
   id: '/stakeholders',
@@ -68,6 +70,11 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClustersRoute = ClustersRouteImport.update({
   id: '/clusters',
   path: '/clusters',
@@ -88,12 +95,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
+  '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
   '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
@@ -103,12 +116,14 @@ export interface FileRoutesByFullPath {
   '/red-flags': typeof RedFlagsRoute
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
+  '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
   '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
@@ -118,6 +133,7 @@ export interface FileRoutesByTo {
   '/red-flags': typeof RedFlagsRoute
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +141,7 @@ export interface FileRoutesById {
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
   '/clusters': typeof ClustersRoute
+  '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
   '/hmis': typeof HmisRoute
   '/insights': typeof InsightsRoute
@@ -134,6 +151,7 @@ export interface FileRoutesById {
   '/red-flags': typeof RedFlagsRoute
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -142,6 +160,7 @@ export interface FileRouteTypes {
     | '/action-plan'
     | '/admin'
     | '/clusters'
+    | '/copilot'
     | '/events'
     | '/hmis'
     | '/insights'
@@ -151,12 +170,14 @@ export interface FileRouteTypes {
     | '/red-flags'
     | '/resources'
     | '/stakeholders'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/action-plan'
     | '/admin'
     | '/clusters'
+    | '/copilot'
     | '/events'
     | '/hmis'
     | '/insights'
@@ -166,12 +187,14 @@ export interface FileRouteTypes {
     | '/red-flags'
     | '/resources'
     | '/stakeholders'
+    | '/api/chat'
   id:
     | '__root__'
     | '/'
     | '/action-plan'
     | '/admin'
     | '/clusters'
+    | '/copilot'
     | '/events'
     | '/hmis'
     | '/insights'
@@ -181,6 +204,7 @@ export interface FileRouteTypes {
     | '/red-flags'
     | '/resources'
     | '/stakeholders'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,6 +212,7 @@ export interface RootRouteChildren {
   ActionPlanRoute: typeof ActionPlanRoute
   AdminRoute: typeof AdminRoute
   ClustersRoute: typeof ClustersRoute
+  CopilotRoute: typeof CopilotRoute
   EventsRoute: typeof EventsRoute
   HmisRoute: typeof HmisRoute
   InsightsRoute: typeof InsightsRoute
@@ -197,6 +222,7 @@ export interface RootRouteChildren {
   RedFlagsRoute: typeof RedFlagsRoute
   ResourcesRoute: typeof ResourcesRoute
   StakeholdersRoute: typeof StakeholdersRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -264,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clusters': {
       id: '/clusters'
       path: '/clusters'
@@ -292,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -300,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   ActionPlanRoute: ActionPlanRoute,
   AdminRoute: AdminRoute,
   ClustersRoute: ClustersRoute,
+  CopilotRoute: CopilotRoute,
   EventsRoute: EventsRoute,
   HmisRoute: HmisRoute,
   InsightsRoute: InsightsRoute,
@@ -309,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   RedFlagsRoute: RedFlagsRoute,
   ResourcesRoute: ResourcesRoute,
   StakeholdersRoute: StakeholdersRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
