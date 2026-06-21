@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { MurshidabadMap } from "@/components/site/MurshidabadMap";
+import { HotspotIntelligence } from "@/components/site/HotspotIntelligence";
 import { CLUSTERS, type Block, riskColor, riskLabel } from "@/data/blocks";
 import { POLICE_STATION_CASES, PS_FREQUENCY_2024, PS_FREQUENCY_2025 } from "@/data/crime";
 
@@ -23,9 +24,9 @@ function MapPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Hotspot Mapping"
-        title="Where the risk lives"
-        lead="Real geographic boundaries of all 26 Murshidabad blocks. Filter by cardinal direction or reshade by indicator. Click any block for police-station data."
+        eyebrow="AI Hotspot Intelligence"
+        title="Where the risk signals concentrate"
+        lead="Block boundaries across all 26 Murshidabad blocks. Click any block for its district rank, contributing indicators, comparative analysis, historical trend and an AI-generated situational narrative."
       />
 
       <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-6 lg:grid-cols-[1fr_360px]">
@@ -161,6 +162,8 @@ function BlockDetail({ block, onClose }: { block: Block; onClose: () => void }) 
           </ul>
         </div>
       )}
+
+      <HotspotIntelligence block={block} />
     </div>
   );
 }
