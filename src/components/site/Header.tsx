@@ -11,7 +11,7 @@ const NAV = [
   { to: "/matrix", label: "Vulnerability Matrix" },
   { to: "/red-flags", label: "Risk Signals" },
   { to: "/clusters", label: "Clusters" },
-  { to: "/copilot", label: "AI Copilot" },
+  { to: "/copilot", label: "AI Intelligence" },
   { to: "/action-plan", label: "Action Plan" },
   { to: "/resources", label: "Resources" },
   { to: "/publications", label: "Publications" },
