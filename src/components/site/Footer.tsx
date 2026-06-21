@@ -18,7 +18,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-1.5 text-xs text-muted-foreground">
             <li><Link to="/map" className="hover:text-foreground">Hotspot Map</Link></li>
             <li><Link to="/hmis" className="hover:text-foreground">HMIS Health</Link></li>
-            <li><Link to="/red-flags" className="hover:text-foreground">Red Flags</Link></li>
+            <li><Link to="/red-flags" className="hover:text-foreground">Emerging Risk Signals</Link></li>
             <li><Link to="/action-plan" className="hover:text-foreground">Action Plan</Link></li>
             <li><Link to="/publications" className="hover:text-foreground">Publications</Link></li>
           </ul>

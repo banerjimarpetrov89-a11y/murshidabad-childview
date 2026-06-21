@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, Award } from "lucide-react";
+import { Activity, Award, Info } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RED_FLAGS } from "@/data/content";
 import { LANDMARK_VERDICT } from "@/data/crime";
@@ -7,82 +7,200 @@ import { LANDMARK_VERDICT } from "@/data/crime";
 export const Route = createFileRoute("/red-flags")({
   head: () => ({
     meta: [
-      { title: "Red Flags — Murshidabad Child Protection" },
-      { name: "description", content: "The discrepancies that demand action: the 0.003% justice gap, Lalgola epicentre, the Kanyashree loophole and the landmark POCSO verdict." },
-      { property: "og:title", content: "Red Flags — Murshidabad Child Protection" },
-      { property: "og:description", content: "Where the data is screaming. And what should be done." },
+      { title: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
+      {
+        name: "description",
+        content:
+          "Evidence-based emerging risk signals across Murshidabad blocks: contributing indicators, observed patterns and severity. Situational intelligence only — no prescriptive actions.",
+      },
+      { property: "og:title", content: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
+      {
+        property: "og:description",
+        content:
+          "Where indicators are diverging from district norms. Observation + contributing indicators + severity.",
+      },
     ],
   }),
-  component: RedFlagsPage,
+  component: RiskSignalsPage,
 });
 
-const NEW_FLAGS = [
+type Severity = "critical" | "high" | "moderate";
+
+type Signal = {
+  id: string;
+  title: string;
+  severity: Severity;
+  observation: string;
+  indicators: string[];
+  dataBasis: string;
+};
+
+const NEW_SIGNALS: Signal[] = [
   {
     id: "khargram-justice-gap",
-    title: "Khargram: 3,909 pregnancies → 13 FIRs (0.003%)",
-    severity: "critical" as const,
-    body: "Khargram block recorded 3,909 teenage pregnancies in the latest cumulative HMIS data. Only 13 POCSO/child-crime FIRs were filed. That is a 0.003% justice ratio — effectively zero.",
-    action: "Co-locate a CWC desk with Khargram PS; mandatory monthly cross-check between BMOH pregnancy register and Khargram PS daily diary.",
+    title: "Khargram — divergence between health load and justice filings",
+    severity: "critical",
+    observation:
+      "Cumulative HMIS records show 3,909 teenage pregnancies in Khargram block alongside 13 registered POCSO / child-crime FIRs — a filing-to-incidence ratio of approximately 0.003%, the lowest band in the district.",
+    indicators: ["Teenage Pregnancies", "POCSO / Child FIRs", "Reporting Silence"],
+    dataBasis: "HMIS adolescent pregnancy register · eCourts/PS FIR aggregates",
   },
   {
     id: "sagardighi-samserganj-silence",
-    title: "Sagardighi & Samserganj — vanishing reporting",
-    severity: "critical" as const,
-    body: "Sagardighi: 4,559 TP / 10 FIRs (0.005%). Samserganj: 4,548 TP / 26 FIRs (0.005%). Two of the highest-load northern blocks have the silenced reporting trail.",
-    action: "Trigger DM-led joint review with both OCs; activate AHTU sub-units; quarterly publication of TP-to-FIR ratio per PS.",
+    title: "Sagardighi & Samserganj — sustained reporting silence",
+    severity: "critical",
+    observation:
+      "Sagardighi (4,559 teenage pregnancies / 10 FIRs) and Samserganj (4,548 / 26) show filing-to-incidence ratios near 0.005% — among the lowest in northern Murshidabad. Pattern persists across multiple reporting periods.",
+    indicators: ["Teenage Pregnancies", "POCSO / Child FIRs", "Reporting Silence"],
+    dataBasis: "HMIS · WB Police PS-level FIR data · CMRTS register",
   },
   {
     id: "lalgola-epicentre",
-    title: "Lalgola = district crime epicentre (PS 38 cases · 2025)",
-    severity: "critical" as const,
-    body: "Lalgola PS leads the district with 38 POCSO + child crime cases registered in 2025 — up from 31 in 2024. The block sits at the convergence of border smuggling routes, Padma island migration, and active trafficking networks.",
-    action: "Permanent AHTU posting at Lalgola PS; specialised POCSO investigator; coordination cell with Bangladesh-side counterparts via BSF.",
+    title: "Lalgola — concentration of registered child-crime cases",
+    severity: "high",
+    observation:
+      "Lalgola PS recorded 38 POCSO + child-crime cases in 2025 (vs. 31 in 2024), the highest single-PS count in the district. Co-located with border, riverine and migration corridors.",
+    indicators: ["POCSO / Child FIRs", "Trafficking Indicators", "Border Geography"],
+    dataBasis: "WB Police PS daily diary · AHTU casework summaries",
   },
   {
-    id: "raghunathganj-paradox",
-    title: "Raghunathganj paradox: 7,200 TP, only 15 FIRs",
-    severity: "critical" as const,
-    body: "Raghunathganj I + II combined hold the largest pregnancy load in the dataset (~7,200) yet produced only 15 FIRs. Filings track Lalgola, not Raghunathganj — even though the underlying caseload is larger.",
-    action: "Audit Raghunathganj PS daily diary against Suti GH pregnancy register; deploy a roving CWC member for 90 days.",
+    id: "raghunathganj-divergence",
+    title: "Raghunathganj I + II — load-to-filing divergence",
+    severity: "high",
+    observation:
+      "Combined teenage pregnancy load of ~7,200 represents the largest in the dataset, while combined FIRs total 15. Filing volume does not track underlying caseload at the same proportionality observed in comparator northern blocks.",
+    indicators: ["Teenage Pregnancies", "POCSO / Child FIRs", "Comparative Filing Ratio"],
+    dataBasis: "HMIS · PS-level FIR aggregates · neighbouring-block comparators",
   },
 ];
 
-function RedFlagsPage() {
-  const all = [...RED_FLAGS, ...NEW_FLAGS];
+const SEVERITY_LABEL: Record<Severity, string> = {
+  critical: "Critical",
+  high: "High",
+  moderate: "Moderate",
+};
+
+const SEVERITY_VAR: Record<Severity, string> = {
+  critical: "var(--risk-critical)",
+  high: "var(--risk-high)",
+  moderate: "var(--risk-moderate)",
+};
+
+function normalize(item: (typeof RED_FLAGS)[number] | Signal): Signal {
+  if ("observation" in item) return item;
+  // Convert legacy RED_FLAGS records (with `body` and `action`) into the neutral signal shape.
+  const sev: Severity =
+    item.severity === "critical" ? "critical" : item.severity === "high" ? "high" : "moderate";
+  return {
+    id: item.id,
+    title: item.title,
+    severity: sev,
+    observation: item.body,
+    indicators: deriveIndicators(item.body),
+    dataBasis: "Dashboard composite (HMIS · Kanyashree · CMRTS · eCourts)",
+  };
+}
+
+function deriveIndicators(body: string): string[] {
+  const out: string[] = [];
+  const b = body.toLowerCase();
+  if (b.includes("pregnan")) out.push("Teenage Pregnancies");
+  if (b.includes("k1") || b.includes("kanyashree") || b.includes("dropout")) out.push("Kanyashree K1 Dropouts");
+  if (b.includes("marri")) out.push("Child Marriages (CMRTS)");
+  if (b.includes("fir") || b.includes("pocso") || b.includes("justice")) out.push("POCSO / Child FIRs");
+  if (out.length === 0) out.push("Composite Vulnerability Index");
+  return out.slice(0, 4);
+}
+
+function RiskSignalsPage() {
+  const signals: Signal[] = [...RED_FLAGS.map(normalize), ...NEW_SIGNALS];
+
   return (
     <>
       <PageHeader
-        eyebrow="Critical Insights"
-        title="The data is screaming."
-        lead="Where reporting, scheme and justice systems break down most visibly. Each card ends with a concrete next step."
+        eyebrow="Emerging Risk Signals"
+        title="Where indicators are diverging from district norms"
+        lead="Evidence-based signals across Murshidabad blocks. Each card states the observation, contributing indicators, data basis and severity band. This view provides situational intelligence — it does not recommend actions."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-5 md:grid-cols-2">
-        {all.map((f) => (
-          <article key={f.id} className="rounded-xl border-2 bg-card p-6 shadow-sm" style={{ borderColor: f.severity === "critical" ? "color-mix(in oklab, var(--risk-critical) 50%, transparent)" : "color-mix(in oklab, var(--risk-high) 50%, transparent)" }}>
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4" style={{ color: f.severity === "critical" ? "var(--risk-critical)" : "var(--risk-high)" }} />
-              <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: f.severity === "critical" ? "var(--risk-critical)" : "var(--risk-high)" }}>
-                {f.severity} red flag
-              </span>
-            </div>
-            <h2 className="mt-2 font-serif text-2xl leading-tight tracking-tight">{f.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-            <div className="mt-5 rounded-md border-l-4 bg-secondary/50 p-3 text-sm" style={{ borderColor: "var(--primary)" }}>
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">What should be done here?</div>
-              <p className="mt-1 text-foreground">{f.action}</p>
-            </div>
-          </article>
-        ))}
+      <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6">
+        <div className="flex items-start gap-2 rounded-md border border-border bg-card p-3 text-xs text-muted-foreground">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+          <span>
+            Signals are derived from HMIS, Kanyashree, CMRTS and eCourts/PS data. Severity reflects
+            the strength and persistence of the observed pattern, not a prescription. Decisions
+            remain with the competent authority.
+          </span>
+        </div>
+      </div>
+
+      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-10 md:grid-cols-2 md:px-6">
+        {signals.map((s) => {
+          const color = SEVERITY_VAR[s.severity];
+          return (
+            <article
+              key={s.id}
+              className="rounded-xl border-2 bg-card p-6 shadow-sm"
+              style={{ borderColor: `color-mix(in oklab, ${color} 50%, transparent)` }}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <Activity className="h-4 w-4" style={{ color }} />
+                  <span
+                    className="text-[11px] font-semibold uppercase tracking-wider"
+                    style={{ color }}
+                  >
+                    Emerging Risk Signal
+                  </span>
+                </div>
+                <span
+                  className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: color }}
+                >
+                  Severity · {SEVERITY_LABEL[s.severity]}
+                </span>
+              </div>
+
+              <h2 className="mt-2 font-serif text-2xl leading-tight tracking-tight">{s.title}</h2>
+
+              <div className="mt-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-foreground">
+                  Observation
+                </div>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.observation}</p>
+              </div>
+
+              <div className="mt-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-foreground">
+                  Contributing Indicators
+                </div>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {s.indicators.map((i) => (
+                    <span
+                      key={i}
+                      className="rounded border border-border bg-secondary/40 px-2 py-0.5 text-[11px] text-foreground"
+                    >
+                      {i}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-md border-l-4 bg-background/60 p-3 text-[11px] text-muted-foreground" style={{ borderColor: color }}>
+                <span className="font-semibold uppercase tracking-wider text-foreground">Data basis:</span>{" "}
+                {s.dataBasis}
+              </div>
+            </article>
+          );
+        })}
       </section>
 
-      {/* Landmark verdict — counter-narrative */}
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-6">
         <article className="rounded-xl border-2 border-[color:var(--risk-safe)]/40 bg-card p-6 md:p-8">
           <div className="flex items-center gap-2">
             <Award className="h-4 w-4 text-[color:var(--risk-safe)]" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--risk-safe)]">
-              When the system delivers
+              Counter-signal · system delivery
             </span>
           </div>
           <h2 className="mt-2 font-serif text-2xl tracking-tight md:text-3xl">{LANDMARK_VERDICT.title}</h2>

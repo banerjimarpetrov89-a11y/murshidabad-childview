@@ -9,21 +9,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/site/PageHeader";
 
 const SUGGESTED = [
-  "Which blocks need urgent intervention?",
-  "What are the top child protection risks?",
-  "Why is Jalangi vulnerable?",
-  "Which indicators are worsening?",
-  "Generate district action priorities.",
+  "Which blocks show the highest vulnerability signals?",
+  "Compare Jalangi with neighbouring blocks.",
+  "What emerging risk signals stand out this quarter?",
+  "Summarise indicator trends across the district.",
+  "Where are the largest reporting gaps?",
 ];
 
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "AI Copilot — CINI Murshidabad Dashboard" },
+      { title: "Child Protection Intelligence Assistant — Murshidabad ChildWatch AI" },
       {
         name: "description",
         content:
-          "Ask the CINI Murshidabad AI Copilot for data-grounded policy briefings on child protection across all 26 blocks.",
+          "Analytical briefings on child protection situational intelligence across Murshidabad's 26 blocks. Evidence-based, non-prescriptive.",
       },
     ],
   }),
@@ -57,9 +57,9 @@ function CopilotPage() {
   return (
     <div className="bg-background">
       <PageHeader
-        eyebrow="AI Copilot"
-        title="District Child Protection Copilot"
-        lead="Ask data-grounded questions across the Murshidabad dashboard. Responses are formatted as professional policy briefings with recommended actions."
+        eyebrow="AI Intelligence Center"
+        title="Child Protection Intelligence Assistant"
+        lead="Evidence-based situational briefings across the Murshidabad dashboard. Responses follow an Executive Summary → Observations → Indicators → Comparative Analysis → Risk Signals → Data Limitations structure. The assistant provides analysis only and does not recommend actions."
       />
 
       <div className="mx-auto max-w-5xl px-4 pb-12 md:px-6">
@@ -111,7 +111,7 @@ function CopilotPage() {
                 </Button>
               </div>
               <p className="mt-2 text-[11px] text-muted-foreground">
-                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 Murshidabad blocks. Verify before publication.
+                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 Murshidabad blocks. Analytical output only — not a substitute for official decisions.
               </p>
             </form>
           </div>
@@ -139,15 +139,19 @@ function CopilotPage() {
             <div className="rounded-xl border border-border bg-card p-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <FileText className="h-4 w-4 text-primary" />
-                Briefing format
+                Briefing structure
               </div>
-              <ul className="mt-2 space-y-1">
-                <li>• Executive Summary</li>
-                <li>• Evidence (block-level data)</li>
-                <li>• Why It Matters</li>
-                <li>• Recommended Actions</li>
-                <li>• Watch Indicators</li>
-              </ul>
+              <ol className="mt-2 space-y-1 list-decimal pl-4">
+                <li>Executive Summary</li>
+                <li>Key Observations</li>
+                <li>Supporting Indicators</li>
+                <li>Comparative Block Analysis</li>
+                <li>Emerging Risk Signals</li>
+                <li>Data Limitations</li>
+              </ol>
+              <p className="mt-3 text-[11px] italic text-muted-foreground">
+                Situational analysis only. No interventions or recommendations are issued.
+              </p>
             </div>
           </aside>
         </div>
@@ -162,9 +166,9 @@ function EmptyState({ onPick }: { onPick: (q: string) => void }) {
       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Sparkles className="h-6 w-6" />
       </div>
-      <h2 className="mt-4 text-lg font-semibold text-foreground">Ask the District Copilot</h2>
+      <h2 className="mt-4 text-lg font-semibold text-foreground">Child Protection Intelligence Assistant</h2>
       <p className="mt-1 max-w-md text-sm text-muted-foreground">
-        Get instant, data-grounded policy briefings on child protection risks across Murshidabad's 26 blocks.
+        Ask an analytical question. The assistant returns an evidence-based situational briefing — no recommendations.
       </p>
       <div className="mt-5 flex flex-wrap justify-center gap-2">
         {SUGGESTED.slice(0, 3).map((q) => (
@@ -207,7 +211,7 @@ function MessageBlock({ message }: { message: UIMessage }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Policy Briefing
+          Situational Briefing
         </div>
         <article className="prose prose-sm max-w-none rounded-xl border border-border bg-background/60 p-4 text-foreground prose-headings:text-foreground prose-headings:font-semibold prose-h2:text-base prose-h2:mt-4 prose-h2:mb-2 prose-strong:text-foreground prose-li:my-0.5 prose-p:my-2">
           {text ? <ReactMarkdown>{text}</ReactMarkdown> : <span className="text-muted-foreground">…</span>}
