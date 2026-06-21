@@ -19,11 +19,11 @@ const SUGGESTED = [
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "AI Copilot — CINI Murshidabad Dashboard" },
+      { title: "Child Protection Intelligence Assistant — Murshidabad ChildWatch AI" },
       {
         name: "description",
         content:
-          "Ask the CINI Murshidabad AI Copilot for data-grounded policy briefings on child protection across all 26 blocks.",
+          "Analytical briefings on child protection situational intelligence across Murshidabad's 26 blocks. Evidence-based, non-prescriptive.",
       },
     ],
   }),
