@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { MurshidabadMap } from "@/components/site/MurshidabadMap";
+import { HotspotIntelligence } from "@/components/site/HotspotIntelligence";
 import { CLUSTERS, type Block, riskColor, riskLabel } from "@/data/blocks";
 import { POLICE_STATION_CASES, PS_FREQUENCY_2024, PS_FREQUENCY_2025 } from "@/data/crime";
 
