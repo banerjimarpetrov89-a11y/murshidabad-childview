@@ -85,6 +85,47 @@ function ResourcesPage() {
           </select>
         </div>
 
+        <div className="mb-8 rounded-xl border border-border bg-card overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setLegisOpen((v) => !v)}
+            className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/40 transition"
+            aria-expanded={legisOpen}
+          >
+            <div className="flex items-center gap-3">
+              <FileText className="h-5 w-5 text-primary" />
+              <div className="text-left">
+                <h2 className="font-serif text-lg leading-tight">Legislations / Guidelines</h2>
+                <p className="text-xs text-muted-foreground">Acts, rules, regulations and statutory guidelines</p>
+              </div>
+            </div>
+            <ChevronDown className={`h-4 w-4 transition-transform ${legisOpen ? "rotate-180" : ""}`} />
+          </button>
+          {legisOpen && (
+            <ul className="divide-y divide-border border-t border-border">
+              {LEGISLATIONS.map((d) => (
+                <li key={d.title}>
+                  <a
+                    href={d.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 px-5 py-3 text-sm hover:bg-muted/40 transition"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <span className="truncate">{d.title}</span>
+                      <Badge tone="muted">{d.category}</Badge>
+                    </div>
+                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((r, i) => (
             <article key={r.id ?? i} className="rounded-xl border border-border bg-card p-5">
