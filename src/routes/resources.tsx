@@ -55,6 +55,8 @@ function ResourcesPage() {
     (q === "" || r.title.toLowerCase().includes(q.toLowerCase()) || (r.description ?? "").toLowerCase().includes(q.toLowerCase()))
   );
 
+  const [legisOpen, setLegisOpen] = useState(true);
+
   return (
     <>
       <PageHeader
