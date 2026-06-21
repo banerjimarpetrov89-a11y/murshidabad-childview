@@ -139,15 +139,19 @@ function CopilotPage() {
             <div className="rounded-xl border border-border bg-card p-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <FileText className="h-4 w-4 text-primary" />
-                Briefing format
+                Briefing structure
               </div>
-              <ul className="mt-2 space-y-1">
-                <li>• Executive Summary</li>
-                <li>• Evidence (block-level data)</li>
-                <li>• Why It Matters</li>
-                <li>• Recommended Actions</li>
-                <li>• Watch Indicators</li>
-              </ul>
+              <ol className="mt-2 space-y-1 list-decimal pl-4">
+                <li>Executive Summary</li>
+                <li>Key Observations</li>
+                <li>Supporting Indicators</li>
+                <li>Comparative Block Analysis</li>
+                <li>Emerging Risk Signals</li>
+                <li>Data Limitations</li>
+              </ol>
+              <p className="mt-3 text-[11px] italic text-muted-foreground">
+                Situational analysis only. No interventions or recommendations are issued.
+              </p>
             </div>
           </aside>
         </div>
