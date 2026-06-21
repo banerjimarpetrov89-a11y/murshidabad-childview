@@ -1,9 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ExternalLink, Search } from "lucide-react";
+import { ExternalLink, Search, FileText, ChevronDown } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { SEED_RESOURCES } from "@/data/content";
+import pocso from "@/assets/legislations/pocso.pdf.asset.json";
+import medPocso from "@/assets/legislations/medical-prof-pocso-guidelines.pdf.asset.json";
+import newCrim from "@/assets/legislations/women-children-new-criminal-laws.pdf.asset.json";
+import adoption from "@/assets/legislations/adoption-regulations-2022.pdf.asset.json";
+import jjRules from "@/assets/legislations/jj-model-rules.pdf.asset.json";
+import vatsalya from "@/assets/legislations/mission-vatsalya-guidelines.pdf.asset.json";
+import foster from "@/assets/legislations/model-foster-care-guidelines-2024.pdf.asset.json";
+
+const LEGISLATIONS = [
+  { title: "POCSO Act", category: "Legislation", url: pocso.url },
+  { title: "Medical Professionals' Guidelines under POCSO", category: "Guideline", url: medPocso.url },
+  { title: "Women, Children and the New Criminal Laws", category: "Legislation", url: newCrim.url },
+  { title: "Adoption Regulations, 2022", category: "Regulation", url: adoption.url },
+  { title: "Juvenile Justice Model Rules", category: "Rules", url: jjRules.url },
+  { title: "Mission Vatsalya Guidelines", category: "Guideline", url: vatsalya.url },
+  { title: "Model Foster Care Guidelines, 2024", category: "Guideline", url: foster.url },
+];
 
 export const Route = createFileRoute("/resources")({
   head: () => ({
