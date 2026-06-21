@@ -37,7 +37,7 @@ export function Hero() {
             to="/red-flags"
             className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
           >
-            See the Red Flags
+            View Emerging Risk Signals
           </Link>
         </div>
       </div>
