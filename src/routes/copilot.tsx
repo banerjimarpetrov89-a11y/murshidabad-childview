@@ -57,9 +57,9 @@ function CopilotPage() {
   return (
     <div className="bg-background">
       <PageHeader
-        eyebrow="AI Copilot"
-        title="District Child Protection Copilot"
-        lead="Ask data-grounded questions across the Murshidabad dashboard. Responses are formatted as professional policy briefings with recommended actions."
+        eyebrow="AI Intelligence Center"
+        title="Child Protection Intelligence Assistant"
+        lead="Evidence-based situational briefings across the Murshidabad dashboard. Responses follow an Executive Summary → Observations → Indicators → Comparative Analysis → Risk Signals → Data Limitations structure. The assistant provides analysis only and does not recommend actions."
       />
 
       <div className="mx-auto max-w-5xl px-4 pb-12 md:px-6">
