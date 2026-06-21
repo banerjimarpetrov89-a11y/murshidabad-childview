@@ -29,6 +29,10 @@ function Index() {
     <>
       <Hero />
 
+      <AIHighlights />
+
+
+
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <KpiCard
