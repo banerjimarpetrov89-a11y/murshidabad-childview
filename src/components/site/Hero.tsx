@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin } from "lucide-react";
+import { MapPin, Bot, FileText } from "lucide-react";
 
 export function Hero() {
   return (
@@ -18,26 +18,23 @@ export function Hero() {
           MURSHIDABAD DISTRICT · WEST BENGAL · 26 BLOCKS · 254 GPs
         </div>
         <h1 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
-          The Child Protection Landscape of Murshidabad —
-          <span className="text-primary"> in numbers, in maps, in plain sight.</span>
+          Murshidabad ChildWatch AI
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-          A public, evidence-led dashboard combining health, scheme, marriage and court data across
-          all 26 blocks. Built so government, NGO and CSR partners can see what is happening — and
-          act on it.
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          AI-Powered Child Protection Intelligence &amp; Situational Analysis Platform
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            to="/map"
+            to="/copilot"
             className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
           >
-            Open the Hotspot Map <ArrowRight className="h-4 w-4" />
+            <Bot className="h-4 w-4" /> Launch AI Copilot
           </Link>
           <Link
-            to="/red-flags"
+            to="/copilot"
             className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
           >
-            View Emerging Risk Signals
+            <FileText className="h-4 w-4" /> Generate District Brief
           </Link>
         </div>
       </div>
