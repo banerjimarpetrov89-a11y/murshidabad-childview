@@ -9,11 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/site/PageHeader";
 
 const SUGGESTED = [
-  "Which blocks need urgent intervention?",
-  "What are the top child protection risks?",
-  "Why is Jalangi vulnerable?",
-  "Which indicators are worsening?",
-  "Generate district action priorities.",
+  "Which blocks show the highest vulnerability signals?",
+  "Compare Jalangi with neighbouring blocks.",
+  "What emerging risk signals stand out this quarter?",
+  "Summarise indicator trends across the district.",
+  "Where are the largest reporting gaps?",
 ];
 
 export const Route = createFileRoute("/copilot")({
