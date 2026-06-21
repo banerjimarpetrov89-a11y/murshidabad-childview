@@ -4,6 +4,7 @@ import { Hero } from "@/components/site/Hero";
 import { KpiCard } from "@/components/site/KpiCard";
 import { LeakFunnel } from "@/components/site/LeakFunnel";
 import { MurshidabadMap } from "@/components/site/MurshidabadMap";
+import { AIHighlights } from "@/components/site/AIHighlights";
 import { DISTRICT_TOTALS, topRiskBlocks, riskColor, riskLabel } from "@/data/blocks";
 import { CMRTS_TREND, DAR_SUMMARY, ECOURTS_TOTALS, NFHS_TREND } from "@/data/crime";
 import { HMIS_DISTRICT_ROLLUP, BLOCK_HMIS_SUMMARY } from "@/data/hmis";
@@ -27,6 +28,10 @@ function Index() {
   return (
     <>
       <Hero />
+
+      <AIHighlights />
+
+
 
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
