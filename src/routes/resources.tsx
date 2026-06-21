@@ -109,6 +109,7 @@ function ResourcesPage() {
                     href={d.url}
                     target="_blank"
                     rel="noreferrer"
+                    download
                     className="flex items-center justify-between gap-3 px-5 py-3 text-sm hover:bg-muted/40 transition"
                   >
                     <div className="flex items-center gap-3 min-w-0">
