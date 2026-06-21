@@ -111,7 +111,7 @@ function CopilotPage() {
                 </Button>
               </div>
               <p className="mt-2 text-[11px] text-muted-foreground">
-                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 Murshidabad blocks. Verify before publication.
+                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 Murshidabad blocks. Analytical output only — not a substitute for official decisions.
               </p>
             </form>
           </div>
