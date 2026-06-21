@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { BLOCKS, riskColor, riskLabel } from "@/data/blocks";
+import { VulnerabilityScorecards } from "@/components/site/VulnerabilityScorecards";
 
 export const Route = createFileRoute("/matrix")({
   head: () => ({
@@ -115,6 +116,8 @@ function MatrixPage() {
             : "Top-left = healthy reporting (Murshidabad-Jiaganj, Berhampore: 18+ FIRs per 1k TP). Bottom-right = the silent quadrant — Khargram 3.3, Sagardighi 2.2, Domkol 0."}
         </p>
       </section>
+
+      <VulnerabilityScorecards />
     </>
   );
 }
