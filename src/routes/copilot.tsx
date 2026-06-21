@@ -211,7 +211,7 @@ function MessageBlock({ message }: { message: UIMessage }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Policy Briefing
+          Situational Briefing
         </div>
         <article className="prose prose-sm max-w-none rounded-xl border border-border bg-background/60 p-4 text-foreground prose-headings:text-foreground prose-headings:font-semibold prose-h2:text-base prose-h2:mt-4 prose-h2:mb-2 prose-strong:text-foreground prose-li:my-0.5 prose-p:my-2">
           {text ? <ReactMarkdown>{text}</ReactMarkdown> : <span className="text-muted-foreground">…</span>}
