@@ -1,9 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ExternalLink, Search } from "lucide-react";
+import { ExternalLink, Search, FileText, ChevronDown } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { SEED_RESOURCES } from "@/data/content";
+import pocso from "@/assets/legislations/pocso.pdf.asset.json";
+import medPocso from "@/assets/legislations/medical-prof-pocso-guidelines.pdf.asset.json";
+import newCrim from "@/assets/legislations/women-children-new-criminal-laws.pdf.asset.json";
+import adoption from "@/assets/legislations/adoption-regulations-2022.pdf.asset.json";
+import jjRules from "@/assets/legislations/jj-model-rules.pdf.asset.json";
+import vatsalya from "@/assets/legislations/mission-vatsalya-guidelines.pdf.asset.json";
+import foster from "@/assets/legislations/model-foster-care-guidelines-2024.pdf.asset.json";
+
+const LEGISLATIONS = [
+  { title: "POCSO Act", category: "Legislation", url: pocso.url },
+  { title: "Medical Professionals' Guidelines under POCSO", category: "Guideline", url: medPocso.url },
+  { title: "Women, Children and the New Criminal Laws", category: "Legislation", url: newCrim.url },
+  { title: "Adoption Regulations, 2022", category: "Regulation", url: adoption.url },
+  { title: "Juvenile Justice Model Rules", category: "Rules", url: jjRules.url },
+  { title: "Mission Vatsalya Guidelines", category: "Guideline", url: vatsalya.url },
+  { title: "Model Foster Care Guidelines, 2024", category: "Guideline", url: foster.url },
+];
 
 export const Route = createFileRoute("/resources")({
   head: () => ({
@@ -38,6 +55,8 @@ function ResourcesPage() {
     (q === "" || r.title.toLowerCase().includes(q.toLowerCase()) || (r.description ?? "").toLowerCase().includes(q.toLowerCase()))
   );
 
+  const [legisOpen, setLegisOpen] = useState(true);
+
   return (
     <>
       <PageHeader
@@ -65,6 +84,47 @@ function ResourcesPage() {
             <option value="health">Health</option>
           </select>
         </div>
+
+        <div className="mb-8 rounded-xl border border-border bg-card overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setLegisOpen((v) => !v)}
+            className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/40 transition"
+            aria-expanded={legisOpen}
+          >
+            <div className="flex items-center gap-3">
+              <FileText className="h-5 w-5 text-primary" />
+              <div className="text-left">
+                <h2 className="font-serif text-lg leading-tight">Legislations / Guidelines</h2>
+                <p className="text-xs text-muted-foreground">Acts, rules, regulations and statutory guidelines</p>
+              </div>
+            </div>
+            <ChevronDown className={`h-4 w-4 transition-transform ${legisOpen ? "rotate-180" : ""}`} />
+          </button>
+          {legisOpen && (
+            <ul className="divide-y divide-border border-t border-border">
+              {LEGISLATIONS.map((d) => (
+                <li key={d.title}>
+                  <a
+                    href={d.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-3 px-5 py-3 text-sm hover:bg-muted/40 transition"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <span className="truncate">{d.title}</span>
+                      <Badge tone="muted">{d.category}</Badge>
+                    </div>
+                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((r, i) => (
