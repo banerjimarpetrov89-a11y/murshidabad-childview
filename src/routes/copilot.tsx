@@ -166,9 +166,9 @@ function EmptyState({ onPick }: { onPick: (q: string) => void }) {
       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Sparkles className="h-6 w-6" />
       </div>
-      <h2 className="mt-4 text-lg font-semibold text-foreground">Ask the District Copilot</h2>
+      <h2 className="mt-4 text-lg font-semibold text-foreground">Child Protection Intelligence Assistant</h2>
       <p className="mt-1 max-w-md text-sm text-muted-foreground">
-        Get instant, data-grounded policy briefings on child protection risks across Murshidabad's 26 blocks.
+        Ask an analytical question. The assistant returns an evidence-based situational briefing — no recommendations.
       </p>
       <div className="mt-5 flex flex-wrap justify-center gap-2">
         {SUGGESTED.slice(0, 3).map((q) => (
