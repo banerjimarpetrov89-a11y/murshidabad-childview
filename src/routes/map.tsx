@@ -162,6 +162,8 @@ function BlockDetail({ block, onClose }: { block: Block; onClose: () => void }) 
           </ul>
         </div>
       )}
+
+      <HotspotIntelligence block={block} />
     </div>
   );
 }
