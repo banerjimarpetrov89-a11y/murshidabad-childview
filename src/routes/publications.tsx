@@ -21,6 +21,7 @@ type Pub = { id?: string; title: string; summary: string | null; key_findings: s
 
 function PublicationsPage() {
   const [items, setItems] = useState<Pub[]>([]);
+  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     supabase.from("publications").select("*").order("year", { ascending: false }).then(({ data }) => {
@@ -28,6 +29,19 @@ function PublicationsPage() {
       setItems(db.length ? db : (SEED_PUBLICATIONS as Pub[]));
     });
   }, []);
+
+  useEffect(() => {
+    const paths = items.map((p) => p.file_path).filter((p): p is string => !!p);
+    if (paths.length === 0) return;
+    let cancelled = false;
+    supabase.storage.from("publications").createSignedUrls(paths, 60 * 60).then(({ data }) => {
+      if (cancelled || !data) return;
+      const map: Record<string, string> = {};
+      for (const row of data) if (row.path && row.signedUrl) map[row.path] = row.signedUrl;
+      setSignedUrls(map);
+    });
+    return () => { cancelled = true; };
+  }, [items]);
 
   return (
     <>
@@ -52,9 +66,9 @@ function PublicationsPage() {
                 <p className="mt-1 leading-relaxed text-muted-foreground">{p.key_findings}</p>
               </div>
             )}
-            {p.file_path && (
+            {p.file_path && signedUrls[p.file_path] && (
               <a
-                href={supabase.storage.from("publications").getPublicUrl(p.file_path).data.publicUrl}
+                href={signedUrls[p.file_path]}
                 target="_blank" rel="noreferrer"
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
               >
