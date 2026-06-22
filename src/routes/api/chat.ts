@@ -1,9 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
+import { createClient } from "@supabase/supabase-js";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { buildDashboardContext } from "@/lib/copilot-context";
+import type { Database } from "@/integrations/supabase/types";
 
 type ChatRequestBody = { messages?: unknown };
+
+async function requireAuthenticatedUser(request: Request): Promise<Response | null> {
+  const authHeader = request.headers.get("authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const token = authHeader.slice("Bearer ".length).trim();
+  if (!token) return new Response("Unauthorized", { status: 401 });
+
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+    return new Response("Server misconfigured", { status: 500 });
+  }
+  const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+  });
+  const { data, error } = await supabase.auth.getClaims(token);
+  if (error || !data?.claims?.sub) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  return null;
+}
 
 const SYSTEM_PROMPT = `You are the Child Protection Intelligence Assistant for the Murshidabad ChildWatch AI platform — an analytical briefing service in the style of a UNICEF, World Bank, or District Administration situational report.
 
@@ -47,6 +72,9 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const unauthorized = await requireAuthenticatedUser(request);
+        if (unauthorized) return unauthorized;
+
         const { messages } = (await request.json()) as ChatRequestBody;
         if (!Array.isArray(messages)) {
           return new Response("Messages are required", { status: 400 });
