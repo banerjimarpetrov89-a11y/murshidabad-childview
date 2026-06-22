@@ -33,8 +33,8 @@ export const Route = createFileRoute("/copilot")({
 });
 
 function CopilotPage() {
-function CopilotPage() {
-  const { user, loading } = useAuth();
+  useAuth();
+
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const transport = useRef(
