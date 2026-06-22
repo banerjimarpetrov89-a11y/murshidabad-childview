@@ -9,30 +9,34 @@ export function Hero() {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(60% 80% at 20% 0%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 60%), radial-gradient(50% 70% at 100% 100%, color-mix(in oklab, var(--risk-critical) 18%, transparent), transparent 60%), linear-gradient(180deg, var(--background), color-mix(in oklab, var(--secondary) 60%, var(--background)))",
+            "radial-gradient(55% 70% at 12% 0%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%), radial-gradient(40% 55% at 95% 100%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 60%), linear-gradient(180deg, var(--background), var(--background))",
         }}
       />
-      <div className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
-        <div className="flex items-center gap-2 text-xs font-medium text-primary">
+      <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
           <MapPin className="h-3.5 w-3.5" />
-          MURSHIDABAD DISTRICT · WEST BENGAL · 26 BLOCKS · 254 GPs
+          Murshidabad District · West Bengal · 26 Blocks
         </div>
-        <h1 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+        <h1 className="mt-5 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
           Murshidabad ChildWatch AI
         </h1>
-        <p className="mx-auto mt-5 max-w-3xl text-center text-xl leading-relaxed text-muted-foreground md:text-2xl">
-          From <span className="font-semibold text-foreground">data</span> to <span className="font-semibold text-foreground">intelligence</span>: identifying patterns, vulnerabilities and emerging <span className="font-semibold text-foreground">child protection</span> concerns across Murshidabad.
+        <p className="mt-4 max-w-3xl font-serif text-xl leading-snug text-foreground/80 md:text-2xl">
+          AI-Powered Child Protection Intelligence &amp; Situational Analysis Platform
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          Transforming child protection data into evidence-based intelligence to support
+          planning, monitoring and situational analysis.
+        </p>
+        <div className="mt-9 flex flex-wrap gap-3">
           <Link
             to="/copilot"
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
           >
-            <Bot className="h-4 w-4" /> Launch AI Copilot
+            <Bot className="h-4 w-4" /> Launch AI Intelligence Assistant
           </Link>
           <Link
             to="/brief"
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground shadow-sm transition-all hover:border-primary/40 hover:bg-secondary"
           >
             <FileText className="h-4 w-4" /> Generate District Brief
           </Link>
