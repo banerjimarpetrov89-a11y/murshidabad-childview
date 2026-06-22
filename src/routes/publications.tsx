@@ -66,9 +66,9 @@ function PublicationsPage() {
                 <p className="mt-1 leading-relaxed text-muted-foreground">{p.key_findings}</p>
               </div>
             )}
-            {p.file_path && (
+            {p.file_path && signedUrls[p.file_path] && (
               <a
-                href={supabase.storage.from("publications").getPublicUrl(p.file_path).data.publicUrl}
+                href={signedUrls[p.file_path]}
                 target="_blank" rel="noreferrer"
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
               >
