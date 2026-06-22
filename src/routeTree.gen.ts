@@ -20,6 +20,7 @@ import { Route as HmisRouteImport } from './routes/hmis'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as ClustersRouteImport } from './routes/clusters'
+import { Route as BriefRouteImport } from './routes/brief'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ActionPlanRouteImport } from './routes/action-plan'
 import { Route as IndexRouteImport } from './routes/index'
@@ -80,6 +81,11 @@ const ClustersRoute = ClustersRouteImport.update({
   path: '/clusters',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BriefRoute = BriefRouteImport.update({
+  id: '/brief',
+  path: '/brief',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
+  '/brief': typeof BriefRoute
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
+  '/brief': typeof BriefRoute
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
+  '/brief': typeof BriefRoute
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/'
     | '/action-plan'
     | '/admin'
+    | '/brief'
     | '/clusters'
     | '/copilot'
     | '/events'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/action-plan'
     | '/admin'
+    | '/brief'
     | '/clusters'
     | '/copilot'
     | '/events'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/action-plan'
     | '/admin'
+    | '/brief'
     | '/clusters'
     | '/copilot'
     | '/events'
@@ -211,6 +223,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ActionPlanRoute: typeof ActionPlanRoute
   AdminRoute: typeof AdminRoute
+  BriefRoute: typeof BriefRoute
   ClustersRoute: typeof ClustersRoute
   CopilotRoute: typeof CopilotRoute
   EventsRoute: typeof EventsRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClustersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brief': {
+      id: '/brief'
+      path: '/brief'
+      fullPath: '/brief'
+      preLoaderRoute: typeof BriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -339,6 +359,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ActionPlanRoute: ActionPlanRoute,
   AdminRoute: AdminRoute,
+  BriefRoute: BriefRoute,
   ClustersRoute: ClustersRoute,
   CopilotRoute: CopilotRoute,
   EventsRoute: EventsRoute,

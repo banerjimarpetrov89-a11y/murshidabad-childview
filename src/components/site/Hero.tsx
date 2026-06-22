@@ -31,7 +31,7 @@ export function Hero() {
             <Bot className="h-4 w-4" /> Launch AI Copilot
           </Link>
           <Link
-            to="/copilot"
+            to="/brief"
             className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
           >
             <FileText className="h-4 w-4" /> Generate District Brief
