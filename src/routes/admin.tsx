@@ -93,23 +93,49 @@ function AuthForm() {
 
 function NotAdmin({ email }: { email: string }) {
   const [msg, setMsg] = useState("");
+  const [adminExists, setAdminExists] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    supabase.rpc("admin_exists").then(({ data, error }) => {
+      if (!mounted) return;
+      if (error) {
+        setAdminExists(true); // fail closed — hide bootstrap button
+      } else {
+        setAdminExists(!!data);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const claimAdmin = async () => {
-    // Allow self-promotion ONLY if no admin exists yet (first-user bootstrap).
-    const { data: existing } = await supabase.from("user_roles").select("id").eq("role", "admin").limit(1);
-    if (existing && existing.length > 0) {
-      setMsg("An admin already exists. Ask them to grant you access.");
+    setMsg("");
+    const { data, error } = await supabase.rpc("bootstrap_first_admin");
+    if (error) {
+      setMsg(error.message);
       return;
     }
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    const { error } = await supabase.from("user_roles").insert({ user_id: user.id, role: "admin" });
-    if (error) setMsg(error.message); else { setMsg("You are now admin. Reloading…"); setTimeout(() => location.reload(), 800); }
+    if (data === true) {
+      setMsg("You are now admin. Reloading…");
+      setTimeout(() => location.reload(), 800);
+    } else {
+      setMsg("An admin already exists. Ask them to grant you access.");
+      setAdminExists(true);
+    }
   };
+
   return (
     <div className="mx-auto max-w-md px-4 py-16 text-center">
       <h1 className="font-serif text-2xl">Signed in as {email}</h1>
       <p className="mt-2 text-sm text-muted-foreground">You don't have admin access yet.</p>
-      <button onClick={claimAdmin} className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Claim admin (first user only)</button>
+      {adminExists === false && (
+        <button onClick={claimAdmin} className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Claim admin (first user only)</button>
+      )}
+      {adminExists === true && (
+        <p className="mt-5 text-sm text-muted-foreground">Ask an existing admin to grant you access.</p>
+      )}
       {msg && <p className="mt-3 text-xs text-muted-foreground">{msg}</p>}
       <button onClick={() => supabase.auth.signOut()} className="mt-4 block mx-auto text-xs text-muted-foreground hover:text-foreground">Sign out</button>
     </div>
