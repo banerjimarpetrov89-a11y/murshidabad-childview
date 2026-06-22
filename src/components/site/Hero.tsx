@@ -20,8 +20,8 @@ export function Hero() {
         <h1 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
           Murshidabad ChildWatch AI
         </h1>
-        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-          AI-Powered Child Protection Intelligence &amp; Situational Analysis Platform
+        <p className="mx-auto mt-5 max-w-3xl text-center text-xl leading-relaxed text-muted-foreground md:text-2xl">
+          From <span className="font-semibold text-foreground">data</span> to <span className="font-semibold text-foreground">intelligence</span>: identifying patterns, vulnerabilities and emerging <span className="font-semibold text-foreground">child protection</span> concerns across Murshidabad.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
