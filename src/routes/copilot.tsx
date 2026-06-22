@@ -7,6 +7,8 @@ import { Sparkles, Send, Loader2, FileText, User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/site/PageHeader";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const SUGGESTED = [
   "Which blocks show the highest vulnerability signals?",
