@@ -33,9 +33,22 @@ export const Route = createFileRoute("/copilot")({
 });
 
 function CopilotPage() {
+function CopilotPage() {
+  const { user, loading } = useAuth();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const transport = useRef(new DefaultChatTransport({ api: "/api/chat" })).current;
+  const transport = useRef(
+    new DefaultChatTransport({
+      api: "/api/chat",
+      fetch: async (url, init) => {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        const headers = new Headers(init?.headers);
+        if (token) headers.set("Authorization", `Bearer ${token}`);
+        return fetch(url, { ...init, headers });
+      },
+    }),
+  ).current;
 
   const { messages, sendMessage, status } = useChat({
     id: "copilot",
