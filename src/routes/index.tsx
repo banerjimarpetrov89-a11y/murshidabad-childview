@@ -396,7 +396,7 @@ function InsightCard({
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">{icon}</span>
           {kind}
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/8 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
+        <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
           <Sparkles className="h-2.5 w-2.5" /> AI
         </span>
       </div>
