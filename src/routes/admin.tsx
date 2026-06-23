@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Admin — CINI Murshidabad" },
+      { title: "Admin — Murshidabad Child Protection" },
       { name: "description", content: "Admin area for managing resources, publications, events and stakeholders." },
     ],
   }),
@@ -74,7 +74,7 @@ function AuthForm() {
     <div className="mx-auto max-w-md px-4 py-16">
       <div className="rounded-xl border border-border bg-card p-6">
         <h1 className="font-serif text-2xl tracking-tight">Admin {mode === "signup" ? "sign up" : "sign in"}</h1>
-        <p className="mt-1 text-xs text-muted-foreground">Restricted to authorised CINI Murshidabad staff.</p>
+        <p className="mt-1 text-xs text-muted-foreground">Restricted to authorised staff.</p>
         <form onSubmit={submit} className="mt-5 space-y-3">
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required placeholder="email@example.org" className="h-10 w-full rounded-md border border-border bg-background px-3 text-sm" />
           <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required minLength={6} placeholder="password" className="h-10 w-full rounded-md border border-border bg-background px-3 text-sm" />
