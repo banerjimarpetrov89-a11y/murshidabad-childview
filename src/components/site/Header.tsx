@@ -29,7 +29,7 @@ export function SiteHeader() {
             <Shield className="h-5 w-5" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-bold tracking-tight text-foreground">CINI Murshidabad</div>
+            <div className="text-sm font-bold tracking-tight text-foreground">CINI</div>
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Child Protection Dashboard</div>
           </div>
         </Link>

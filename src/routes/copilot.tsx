@@ -21,11 +21,11 @@ const SUGGESTED = [
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "Child Protection Intelligence Assistant — Murshidabad ChildWatch AI" },
+      { title: "Child Protection Intelligence Assistant — Child Watch AI" },
       {
         name: "description",
         content:
-          "Analytical briefings on child protection situational intelligence across Murshidabad's 26 blocks. Evidence-based, non-prescriptive.",
+          "Analytical briefings on child protection situational intelligence across 26 blocks. Evidence-based, non-prescriptive.",
       },
     ],
   }),
@@ -67,7 +67,7 @@ function CopilotPage() {
       <PageHeader
         eyebrow="AI Intelligence Center"
         title="Child Protection Intelligence Assistant"
-        lead="Evidence-based situational briefings across the Murshidabad dashboard. Responses follow an Executive Summary → Observations → Indicators → Comparative Analysis → Risk Signals → Data Limitations structure. The assistant provides analysis only and does not recommend actions."
+        lead="Evidence-based situational briefings across the dashboard. Responses follow an Executive Summary → Observations → Indicators → Comparative Analysis → Risk Signals → Data Limitations structure. The assistant provides analysis only and does not recommend actions."
       />
 
       <div className="mx-auto max-w-5xl px-4 pb-12 md:px-6">
@@ -119,7 +119,7 @@ function CopilotPage() {
                 </Button>
               </div>
               <p className="mt-2 text-[11px] text-muted-foreground">
-                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 Murshidabad blocks. Analytical output only — not a substitute for official decisions.
+                Grounded in HMIS, Kanyashree, CMRTS and eCourts data for 26 blocks. Analytical output only — not a substitute for official decisions.
               </p>
             </form>
           </div>

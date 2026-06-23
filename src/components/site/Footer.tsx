@@ -7,9 +7,9 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border bg-secondary/40">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-8 md:grid-cols-4">
         <div>
-          <div className="text-sm font-bold text-foreground">CINI Murshidabad</div>
+          <div className="text-sm font-bold text-foreground">CINI</div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Child In Need Institute · Murshidabad District Administration ·
+            Child In Need Institute · District Administration ·
             Government of West Bengal. A public knowledge & decision-support resource for child protection.
           </p>
         </div>
@@ -25,7 +25,7 @@ export function SiteFooter() {
           <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-foreground">For researchers</div>
           <div className="mt-2 rounded-md border border-border bg-card p-3 text-[11px] leading-relaxed text-muted-foreground">
             <div className="font-semibold text-foreground">Cite this dashboard</div>
-            <p className="mt-1">CINI &amp; Murshidabad District Administration ({new Date().getFullYear()}). <em>Murshidabad Child Protection Dashboard.</em> Public knowledge resource. Retrieved from this site.</p>
+            <p className="mt-1">CINI &amp; District Administration ({new Date().getFullYear()}). <em>Child Protection Dashboard.</em> Public knowledge resource. Retrieved from this site.</p>
           </div>
         </div>
         <div>
@@ -49,7 +49,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-border/60">
         <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 text-[11px] text-muted-foreground flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
-          <span>© {new Date().getFullYear()} CINI Murshidabad · Built as a public good.</span>
+          <span>© {new Date().getFullYear()} CINI · Built as a public good.</span>
           <span>Statistical reference: HMIS, DPMU, CMRTS, eCourts, NFHS-V, DAR (2023–2026).</span>
         </div>
       </div>

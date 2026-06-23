@@ -8,8 +8,8 @@ import { FileText, TrendingUp, AlertTriangle, BarChart3, GitCompare, Info, ListO
 export const Route = createFileRoute("/brief")({
   head: () => ({
     meta: [
-      { title: "District Child Protection Brief — Murshidabad ChildWatch AI" },
-      { name: "description", content: "Executive briefing: trends, vulnerability ranking, emerging risk signals, comparative analysis, and data notes for Murshidabad district." },
+      { title: "District Child Protection Brief — Child Watch AI" },
+      { name: "description", content: "Executive briefing: trends, vulnerability ranking, emerging risk signals, comparative analysis, and data notes for the district." },
     ],
   }),
   component: BriefPage,
@@ -77,7 +77,7 @@ function BriefPage() {
       <PageHeader
         eyebrow="Executive Briefing"
         title="District Child Protection Brief"
-        lead={`Murshidabad district — generated ${today}. Deterministic situational summary compiled from HMIS, DPMU/Kanyashree, CMRTS, and eCourts data. Evidence-led, neutral analysis. No recommendations or prescriptive actions.`}
+        lead={`District briefing — generated ${today}. Deterministic situational summary compiled from HMIS, DPMU/Kanyashree, CMRTS, and eCourts data. Evidence-led, neutral analysis. No recommendations or prescriptive actions.`}
       />
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 print:hidden">
@@ -101,7 +101,7 @@ function BriefPage() {
         {/* 1. Executive Summary */}
         <SectionCard icon={FileText} eyebrow="Section 1" title="Executive Summary">
           <p>
-            Murshidabad's child-protection landscape across {scored.length} blocks shows a district average vulnerability index of{" "}
+            The child-protection landscape across {scored.length} blocks shows a district average vulnerability index of{" "}
             <strong>{districtAvg.toFixed(0)}/100</strong>. Of these, <strong>{critical.length}</strong> blocks are classified Critical,{" "}
             <strong>{high.length}</strong> High, <strong>{medium.length}</strong> Medium, and <strong>{low.length}</strong> Low.
           </p>

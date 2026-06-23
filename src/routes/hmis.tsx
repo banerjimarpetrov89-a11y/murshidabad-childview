@@ -22,9 +22,9 @@ import {
 export const Route = createFileRoute("/hmis")({
   head: () => ({
     meta: [
-      { title: "HMIS Health Indicators — CINI Murshidabad" },
-      { name: "description", content: "Sub-centre level Health Management Information System indicators for Murshidabad — pregnancies, anaemia, high-risk, contraception drop-off." },
-      { property: "og:title", content: "HMIS Health Indicators — CINI Murshidabad" },
+      { title: "HMIS Health Indicators — CINI" },
+      { name: "description", content: "Sub-centre level Health Management Information System indicators — pregnancies, anaemia, high-risk, contraception drop-off." },
+      { property: "og:title", content: "HMIS Health Indicators — CINI" },
       { property: "og:description", content: "155 sub-centres across 5 ingested blocks. ANC, teen-pregnancy, anaemia & Antara drop-off." },
     ],
   }),

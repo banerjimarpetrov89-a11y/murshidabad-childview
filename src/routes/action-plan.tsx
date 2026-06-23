@@ -5,9 +5,9 @@ import { ACTION_PLAN } from "@/data/content";
 export const Route = createFileRoute("/action-plan")({
   head: () => ({
     meta: [
-      { title: "District Action Plan — Murshidabad" },
-      { name: "description", content: "The two-part Murshidabad District Administration action plan: Data & Tracking + Community & Law Enforcement." },
-      { property: "og:title", content: "District Action Plan — Murshidabad" },
+      { title: "District Action Plan  —" },
+      { name: "description", content: "The two-part District Administration action plan: Data & Tracking + Community & Law Enforcement." },
+      { property: "og:title", content: "District Action Plan  —" },
       { property: "og:description", content: "Concrete actions for govt, NGO and CSR partners." },
     ],
   }),
@@ -20,7 +20,7 @@ function ActionPage() {
       <PageHeader
         eyebrow="District Action Plan"
         title="What to do, who does it"
-        lead="A two-part plan for Murshidabad — one for data and tracking systems, one for community and law-enforcement action."
+        lead="A two-part plan for the district — one for data and tracking systems, one for community and law-enforcement action."
       />
       <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-8 lg:grid-cols-2">
         {[ACTION_PLAN.partA, ACTION_PLAN.partB].map((part) => (

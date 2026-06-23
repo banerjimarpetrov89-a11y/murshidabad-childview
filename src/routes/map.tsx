@@ -9,10 +9,10 @@ import { POLICE_STATION_CASES, PS_FREQUENCY_2024, PS_FREQUENCY_2025 } from "@/da
 export const Route = createFileRoute("/map")({
   head: () => ({
     meta: [
-      { title: "Hotspot Map — Murshidabad Child Protection" },
-      { name: "description", content: "Interactive block-level vulnerability map of Murshidabad with cardinal filtering and indicator overlays." },
-      { property: "og:title", content: "Hotspot Map — Murshidabad Child Protection" },
-      { property: "og:description", content: "Block-by-block vulnerability map across all 26 blocks of Murshidabad." },
+      { title: "Hotspot Map — Child Protection" },
+      { name: "description", content: "Interactive block-level vulnerability map with cardinal filtering and indicator overlays." },
+      { property: "og:title", content: "Hotspot Map — Child Protection" },
+      { property: "og:description", content: "Block-by-block vulnerability map across all 26 blocks." },
     ],
   }),
   component: MapPage,
@@ -26,7 +26,7 @@ function MapPage() {
       <PageHeader
         eyebrow="AI Hotspot Intelligence"
         title="Where the risk signals concentrate"
-        lead="Block boundaries across all 26 Murshidabad blocks. Click any block for its district rank, contributing indicators, comparative analysis, historical trend and an AI-generated situational narrative."
+        lead="Block boundaries across all 26 blocks. Click any block for its district rank, contributing indicators, comparative analysis, historical trend and an AI-generated situational narrative."
       />
 
       <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-6 lg:grid-cols-[1fr_360px]">

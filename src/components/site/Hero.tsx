@@ -15,10 +15,10 @@ export function Hero() {
       <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
           <MapPin className="h-3.5 w-3.5" />
-          Murshidabad District · West Bengal · 26 Blocks
+          West Bengal · 26 Blocks
         </div>
         <h1 className="mt-5 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
-          Murshidabad ChildWatch AI
+          Child Watch AI
         </h1>
         <p className="mt-4 max-w-3xl font-serif text-xl leading-snug text-foreground/80 md:text-2xl">
           AI-Powered Child Protection Intelligence &amp; Situational Analysis Platform
