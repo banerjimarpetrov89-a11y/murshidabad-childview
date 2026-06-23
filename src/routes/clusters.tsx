@@ -8,9 +8,9 @@ export const Route = createFileRoute("/clusters")({
   head: () => ({
     meta: [
       { title: "Cluster Stories  —" },
-      { name: "description", content: "Seven cluster narratives + cardinal N/S/E/W/C roll-ups + the Jangipur Police District story for Murshidabad." },
+      { name: "description", content: "Seven cluster narratives + cardinal N/S/E/W/C roll-ups + the Jangipur Police District story." },
       { property: "og:title", content: "Cluster Stories  —" },
-      { property: "og:description", content: "How Murshidabad's blocks group up into distinct vulnerability stories." },
+      { property: "og:description", content: "How the district's blocks group up into distinct vulnerability stories." },
     ],
   }),
   component: ClustersPage,
