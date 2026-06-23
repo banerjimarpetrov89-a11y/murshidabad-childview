@@ -7,9 +7,9 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border bg-secondary/40">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 grid gap-8 md:grid-cols-4">
         <div>
-          <div className="text-sm font-bold text-foreground">CINI Murshidabad</div>
+          <div className="text-sm font-bold text-foreground">CINI</div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Child In Need Institute · Murshidabad District Administration ·
+            Child In Need Institute · District Administration ·
             Government of West Bengal. A public knowledge & decision-support resource for child protection.
           </p>
         </div>
