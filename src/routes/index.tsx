@@ -30,13 +30,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "AI-powered child protection intelligence and situational analysis for Murshidabad district. Evidence-based, government-ready, explainable AI.",
+          "AI-powered child protection intelligence and situational analysis. Evidence-based, government-ready, explainable AI.",
       },
       { property: "og:title", content: "Child Watch AI" },
       {
         property: "og:description",
         content:
-          "Evidence-based child protection intelligence across 26 blocks of Murshidabad district.",
+          "Evidence-based child protection intelligence across 26 blocks.",
       },
     ],
   }),
@@ -152,7 +152,7 @@ function Index() {
           <ExploreCard
             icon={<Map className="h-5 w-5" />}
             title="Hotspot Map"
-            description="Block-level vulnerability mapped across Murshidabad."
+            description="Block-level vulnerability mapped across the district."
             aiNote="AI explainer: clusters traced to co-elevated HMIS load and low FIR-to-incidence ratios."
             href="/map"
           />
