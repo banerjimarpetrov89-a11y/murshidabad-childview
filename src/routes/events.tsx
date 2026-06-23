@@ -9,7 +9,7 @@ export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
       { title: "Events & Initiatives — CINI" },
-      { name: "description", content: "Awareness campaigns, government drives, NGO interventions, the 2025 Press Album and impact stories from across Murshidabad." },
+      { name: "description", content: "Awareness campaigns, government drives, NGO interventions, the 2025 Press Album and impact stories from across the district." },
       { property: "og:title", content: "Events & Initiatives — CINI" },
       { property: "og:description", content: "Press album, campaigns, drives, interventions and their impact." },
     ],

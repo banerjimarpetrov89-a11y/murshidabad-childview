@@ -9,7 +9,7 @@ export const Route = createFileRoute("/publications")({
   head: () => ({
     meta: [
       { title: "Publications & Reports — CINI" },
-      { name: "description", content: "District reports, research studies, baseline and endline assessments on child protection in Murshidabad." },
+      { name: "description", content: "District reports, research studies, baseline and endline assessments on child protection in the district." },
       { property: "og:title", content: "Publications & Reports — CINI" },
       { property: "og:description", content: "District reports, research and assessments — downloadable." },
     ],
