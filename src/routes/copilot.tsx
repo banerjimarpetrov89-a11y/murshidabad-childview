@@ -21,7 +21,7 @@ const SUGGESTED = [
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "Child Protection Intelligence Assistant — Murshidabad ChildWatch AI" },
+      { title: "Child Protection Intelligence Assistant — Child Watch AI" },
       {
         name: "description",
         content:

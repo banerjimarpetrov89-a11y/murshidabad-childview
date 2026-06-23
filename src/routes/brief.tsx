@@ -8,7 +8,7 @@ import { FileText, TrendingUp, AlertTriangle, BarChart3, GitCompare, Info, ListO
 export const Route = createFileRoute("/brief")({
   head: () => ({
     meta: [
-      { title: "District Child Protection Brief — Murshidabad ChildWatch AI" },
+      { title: "District Child Protection Brief — Child Watch AI" },
       { name: "description", content: "Executive briefing: trends, vulnerability ranking, emerging risk signals, comparative analysis, and data notes for Murshidabad district." },
     ],
   }),

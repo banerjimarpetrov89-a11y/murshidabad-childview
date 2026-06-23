@@ -7,13 +7,13 @@ import { LANDMARK_VERDICT } from "@/data/crime";
 export const Route = createFileRoute("/red-flags")({
   head: () => ({
     meta: [
-      { title: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
+      { title: "Emerging Risk Signals — Child Watch AI" },
       {
         name: "description",
         content:
           "Evidence-based emerging risk signals across Murshidabad blocks: contributing indicators, observed patterns and severity. Situational intelligence only — no prescriptive actions.",
       },
-      { property: "og:title", content: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
+      { property: "og:title", content: "Emerging Risk Signals — Child Watch AI" },
       {
         property: "og:description",
         content:

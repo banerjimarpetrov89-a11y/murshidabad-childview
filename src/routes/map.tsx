@@ -9,9 +9,9 @@ import { POLICE_STATION_CASES, PS_FREQUENCY_2024, PS_FREQUENCY_2025 } from "@/da
 export const Route = createFileRoute("/map")({
   head: () => ({
     meta: [
-      { title: "Hotspot Map — Murshidabad Child Protection" },
+      { title: "Hotspot Map — Child Protection" },
       { name: "description", content: "Interactive block-level vulnerability map of Murshidabad with cardinal filtering and indicator overlays." },
-      { property: "og:title", content: "Hotspot Map — Murshidabad Child Protection" },
+      { property: "og:title", content: "Hotspot Map — Child Protection" },
       { property: "og:description", content: "Block-by-block vulnerability map across all 26 blocks of Murshidabad." },
     ],
   }),

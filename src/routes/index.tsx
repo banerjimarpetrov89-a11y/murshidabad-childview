@@ -26,13 +26,13 @@ import { scoreAllBlocks } from "@/lib/vulnerability-score";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Murshidabad ChildWatch AI — Child Protection Intelligence Platform" },
+      { title: "Child Watch AI — Child Protection Intelligence Platform" },
       {
         name: "description",
         content:
           "AI-powered child protection intelligence and situational analysis for Murshidabad district. Evidence-based, government-ready, explainable AI.",
       },
-      { property: "og:title", content: "Murshidabad ChildWatch AI" },
+      { property: "og:title", content: "Child Watch AI" },
       {
         property: "og:description",
         content:
@@ -272,7 +272,7 @@ function Index() {
             <div>
               <Eyebrow color="primary">Generate District Brief</Eyebrow>
               <h2 className="mt-3 font-serif text-3xl tracking-tight text-foreground md:text-4xl">
-                Murshidabad Child Protection Brief
+                Child Protection Brief
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
                 A deterministic, government-ready briefing compiled directly from dashboard data.
