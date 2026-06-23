@@ -7,10 +7,10 @@ import { JANGIPUR_PD_BLOCKS, JANGIPUR_PD_META, LIMITATIONS } from "@/data/crime"
 export const Route = createFileRoute("/clusters")({
   head: () => ({
     meta: [
-      { title: "Cluster Stories  —" },
-      { name: "description", content: "Seven cluster narratives + cardinal N/S/E/W/C roll-ups + the Jangipur Police District story." },
-      { property: "og:title", content: "Cluster Stories  —" },
-      { property: "og:description", content: "How the district's blocks group up into distinct vulnerability stories." },
+      { title: "Cluster Stories — Murshidabad" },
+      { name: "description", content: "Seven cluster narratives + cardinal N/S/E/W/C roll-ups + the Jangipur Police District story for Murshidabad." },
+      { property: "og:title", content: "Cluster Stories — Murshidabad" },
+      { property: "og:description", content: "How Murshidabad's blocks group up into distinct vulnerability stories." },
     ],
   }),
   component: ClustersPage,
@@ -24,7 +24,7 @@ function ClustersPage() {
       <PageHeader
         eyebrow="Cluster Stories"
         title="Seven faces of vulnerability"
-        lead="The district is not one story — it is multiple distinct stories. Thematic clusters, cardinal direction roll-ups, and the new Jangipur Police District."
+        lead="Murshidabad is not one district — it is multiple distinct stories. Thematic clusters, cardinal direction roll-ups, and the new Jangipur Police District."
       />
 
       {/* Cardinal roll-up */}

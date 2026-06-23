@@ -8,9 +8,9 @@ import { SEED_EVENTS } from "@/data/content";
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Events & Initiatives — CINI" },
-      { name: "description", content: "Awareness campaigns, government drives, NGO interventions, the 2025 Press Album and impact stories from across the district." },
-      { property: "og:title", content: "Events & Initiatives — CINI" },
+      { title: "Events & Initiatives — CINI Murshidabad" },
+      { name: "description", content: "Awareness campaigns, government drives, NGO interventions, the 2025 Press Album and impact stories from across Murshidabad." },
+      { property: "og:title", content: "Events & Initiatives — CINI Murshidabad" },
       { property: "og:description", content: "Press album, campaigns, drives, interventions and their impact." },
     ],
   }),
@@ -45,7 +45,7 @@ function PressAlbumFeature() {
         <div className="p-6 md:p-10">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full border border-[#ffd038]/50 bg-[#ffd038]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[2px] text-[#ffd038]">Press Documentation Album 2025</span>
-            <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[2px] text-emerald-300">District Administration</span>
+            <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[2px] text-emerald-300">District Administration · Murshidabad</span>
           </div>
           <h2 className="mt-5 font-serif text-3xl font-bold leading-tight md:text-5xl">
             বাল্যবিবাহ রোধে <span className="text-[#ffd038]">মুর্শিদাবাদ</span>

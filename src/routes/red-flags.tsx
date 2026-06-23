@@ -7,13 +7,13 @@ import { LANDMARK_VERDICT } from "@/data/crime";
 export const Route = createFileRoute("/red-flags")({
   head: () => ({
     meta: [
-      { title: "Emerging Risk Signals — Child Watch AI" },
+      { title: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
       {
         name: "description",
         content:
-          "Evidence-based emerging risk signals across blocks: contributing indicators, observed patterns and severity. Situational intelligence only — no prescriptive actions.",
+          "Evidence-based emerging risk signals across Murshidabad blocks: contributing indicators, observed patterns and severity. Situational intelligence only — no prescriptive actions.",
       },
-      { property: "og:title", content: "Emerging Risk Signals — Child Watch AI" },
+      { property: "og:title", content: "Emerging Risk Signals — Murshidabad ChildWatch AI" },
       {
         property: "og:description",
         content:
@@ -120,7 +120,7 @@ function RiskSignalsPage() {
       <PageHeader
         eyebrow="Emerging Risk Signals"
         title="Where indicators are diverging from district norms"
-        lead="Evidence-based signals across blocks. Each card states the observation, contributing indicators, data basis and severity band. This view provides situational intelligence — it does not recommend actions."
+        lead="Evidence-based signals across Murshidabad blocks. Each card states the observation, contributing indicators, data basis and severity band. This view provides situational intelligence — it does not recommend actions."
       />
 
       <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6">

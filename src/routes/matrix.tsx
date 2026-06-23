@@ -7,9 +7,9 @@ import { VulnerabilityScorecards } from "@/components/site/VulnerabilityScorecar
 export const Route = createFileRoute("/matrix")({
   head: () => ({
     meta: [
-      { title: "Vulnerability Matrix  —" },
-      { name: "description", content: "Plot of every block by incident volume vs reporting silence. Toggle to discrepancy ratio (FIRs/TP)." },
-      { property: "og:title", content: "Vulnerability Matrix  —" },
+      { title: "Vulnerability Matrix — Murshidabad" },
+      { name: "description", content: "Plot of every Murshidabad block by incident volume vs reporting silence. Toggle to discrepancy ratio (FIRs/TP)." },
+      { property: "og:title", content: "Vulnerability Matrix — Murshidabad" },
       { property: "og:description", content: "Where do the worst-affected and the most-silent blocks meet?" },
     ],
   }),

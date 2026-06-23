@@ -26,8 +26,8 @@ export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: [
       { title: "Resources — Schemes, SOPs, Manuals" },
-      { name: "description", content: "Categorised repository of child-protection schemes, SOPs and training manuals." },
-      { property: "og:title", content: "Resources — CINI" },
+      { name: "description", content: "Categorised repository of child-protection schemes, SOPs and training manuals for Murshidabad." },
+      { property: "og:title", content: "Resources — CINI Murshidabad" },
       { property: "og:description", content: "Schemes, SOPs and manuals for govt, NGO and CSR partners." },
     ],
   }),

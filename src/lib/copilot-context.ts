@@ -14,7 +14,7 @@ export function buildDashboardContext() {
     policeStation: b.policeStation,
   }));
   return {
-    district: "West Bengal",
+    district: "Murshidabad, West Bengal",
     totals: DISTRICT_TOTALS,
     criticalBlocks: ranked.filter((b) => b.risk === "critical").map((b) => b.name),
     highBlocks: ranked.filter((b) => b.risk === "high").map((b) => b.name),
