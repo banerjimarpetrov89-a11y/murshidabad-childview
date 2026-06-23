@@ -49,7 +49,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-border/60">
         <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 text-[11px] text-muted-foreground flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
-          <span>© {new Date().getFullYear()} CINI Murshidabad · Built as a public good.</span>
+          <span>© {new Date().getFullYear()} CINI · Built as a public good.</span>
           <span>Statistical reference: HMIS, DPMU, CMRTS, eCourts, NFHS-V, DAR (2023–2026).</span>
         </div>
       </div>
