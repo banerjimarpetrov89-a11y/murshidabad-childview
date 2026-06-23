@@ -15,7 +15,7 @@ export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
       { title: "Data Insights — Child Protection" },
-      { name: "description", content: "Year-wise trends, eCourts comparisons, top police stations and DAR composition for Murshidabad." },
+      { name: "description", content: "Year-wise trends, eCourts comparisons, top police stations and DAR composition." },
       { property: "og:title", content: "Data Insights — Child Protection" },
       { property: "og:description", content: "Trends, comparisons, and what each chart actually means." },
     ],

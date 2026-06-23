@@ -24,7 +24,7 @@ function ClustersPage() {
       <PageHeader
         eyebrow="Cluster Stories"
         title="Seven faces of vulnerability"
-        lead="Murshidabad is not one district — it is multiple distinct stories. Thematic clusters, cardinal direction roll-ups, and the new Jangipur Police District."
+        lead="The district is not one story — it is multiple distinct stories. Thematic clusters, cardinal direction roll-ups, and the new Jangipur Police District."
       />
 
       {/* Cardinal roll-up */}
