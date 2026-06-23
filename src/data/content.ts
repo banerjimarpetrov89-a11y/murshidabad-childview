@@ -21,7 +21,7 @@ export const RED_FLAGS = [
     id: "beldanga-2-leak",
     title: "Beldanga II: 60% of 470 K1 dropouts = underage marriage",
     severity: "critical",
-    body: "DPMU + CINI sample audit estimates ~282 of 470 Kanyashree dropouts in Beldanga II were married underage. Local CMRTS records only 96 cases — a 3x reporting gap.",
+    body: "DPMU sample audit estimates ~282 of 470 Kanyashree dropouts in Beldanga II were married underage. Local CMRTS records only 96 cases — a 3x reporting gap.",
     action: "Cross-verify all 470 cases via panchayat register; activate village-level child protection committees in Mirzapur and Bhabta.",
   },
   {
@@ -55,7 +55,7 @@ export const ACTION_PLAN = {
     title: "Part B — Community & Law Enforcement",
     icon: "🛡️",
     items: [
-      { title: "Village Child Protection Committees", body: "Activate VCPCs in all 254 GPs; CINI to train and mentor for 18 months." },
+      { title: "Village Child Protection Committees", body: "Activate VCPCs in all 254 GPs; NGO partners to train and mentor for 18 months." },
       { title: "ASHA-to-Police bridge protocol", body: "ASHAs empowered (and protected) to report suspected child marriages directly to OC, with district-level escalation channel." },
       { title: "Panchayat marriage register", body: "Mandatory pre-marriage age verification at panchayat with biometric proof, before any social ceremony." },
       { title: "School re-entry guarantee", body: "Bridge schools + transport stipends for every rescued child bride; coordinated with SSA." },
@@ -69,7 +69,7 @@ export const SEED_RESOURCES = [
   { title: "Beti Bachao Beti Padhao", description: "National campaign to address declining child sex ratio and women empowerment.", category: "scheme", stakeholder: "govt", theme: "protection", url: "https://wcd.nic.in/bbbp-schemes" },
   { title: "POCSO Act 2012 — Practitioner SOP", description: "Standard operating procedure for first responders under POCSO.", category: "sop", stakeholder: "govt", theme: "protection" },
   { title: "Child Marriage Restraint Officer Manual", description: "Field manual for CMROs at block level.", category: "manual", stakeholder: "govt", theme: "child_marriage" },
-  { title: "CINI Frontline Worker Toolkit", description: "Training modules for ASHA, ICDS and panchayat-level workers on child protection.", category: "manual", stakeholder: "ngo", theme: "protection" },
+  { title: "Frontline Worker Toolkit", description: "Training modules for ASHA, ICDS and panchayat-level workers on child protection.", category: "manual", stakeholder: "ngo", theme: "protection" },
   { title: "Anti-Trafficking SOP — West Bengal Police", description: "Cross-border trafficking response protocol.", category: "sop", stakeholder: "govt", theme: "trafficking" },
 ];
 
@@ -80,7 +80,7 @@ export const SEED_PUBLICATIONS = [
 ];
 
 export const SEED_EVENTS = [
-  { title: "District-wide Anti-Child-Marriage Drive", description: "Coordinated drive across 254 GPs led by DM with CINI support.", event_date: "2025-04-14", location: "Murshidabad District", type: "drive", impact_story: "118 underage marriages prevented in 30 days." },
+  { title: "District-wide Anti-Child-Marriage Drive", description: "Coordinated drive across 254 GPs led by DM with NGO partner support.", event_date: "2025-04-14", location: "Murshidabad District", type: "drive", impact_story: "118 underage marriages prevented in 30 days." },
   { title: "Kanyashree Tracking Workshop", description: "Block-level workshop on real-time K1 dropout audit.", event_date: "2025-06-10", location: "Berhampore", type: "campaign", impact_story: "All 26 BDOs trained; pilot launched in 5 high-risk blocks." },
   { title: "VCPC Activation — Border Belt", description: "Activation of Village Child Protection Committees in Lalgola, Bhagwangola I/II.", event_date: "2025-09-22", location: "North Border Cluster", type: "intervention", impact_story: "42 GPs reactivated their dormant VCPCs." },
 ];
@@ -88,10 +88,10 @@ export const SEED_EVENTS = [
 export const SEED_STAKEHOLDERS = [
   { name: "District Magistrate, Murshidabad", type: "govt", role: "Convenor — District Child Protection Committee", areas: "All 26 blocks" },
   { name: "DPMU Kanyashree Cell", type: "govt", role: "Scheme administration & dropout audit", areas: "District-wide" },
-  { name: "CINI (Child In Need Institute)", type: "ngo", role: "Frontline mentoring, VCPC activation, dropout verification", areas: "26 blocks; intensive in 7 high-risk" },
+  { name: "NGO Partner", type: "ngo", role: "Frontline mentoring, VCPC activation, dropout verification", areas: "26 blocks; intensive in 7 high-risk" },
   { name: "ICDS Murshidabad", type: "govt", role: "AWW network & adolescent identification", areas: "All blocks" },
   { name: "WB Police — AHTU", type: "govt", role: "Anti-trafficking, POCSO investigation", areas: "Border belt + central hub" },
   { name: "UNICEF India", type: "csr", role: "Technical support & MIS design", areas: "District-wide" },
 ];
 
-export const DATA_SOURCES = ["HMIS (Health)", "DPMU – Kanyashree", "CMRTS Marriage Register", "eCourts (POCSO + IPC)", "CINI Field Audits"];
+export const DATA_SOURCES = ["HMIS (Health)", "DPMU – Kanyashree", "CMRTS Marriage Register", "eCourts (POCSO + IPC)", "Field Audits"];
