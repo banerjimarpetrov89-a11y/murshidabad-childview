@@ -161,7 +161,7 @@ function InsightsPage() {
           <div className="text-xs font-semibold uppercase tracking-wider text-primary">Methodology & Limitations</div>
           <h2 className="mt-2 font-serif text-2xl tracking-tight">How this dashboard is built</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Block-level figures come from the CINI / Murshidabad District Administration "Crime Against Children" 2nd
+            Block-level figures come from the Murshidabad District Administration "Crime Against Children" 2nd
             draft (2025) and the cumulative HMIS, DPMU, CMRTS and eCourts records (2023–2026). Reporting silence is
             computed as <code className="rounded bg-secondary px-1">100 − (FIRs / pregnancies × 1000)</code>, clamped 0–100.
             NFHS figures are NFHS-V (2019-21) compared to NFHS-IV (2015-16).

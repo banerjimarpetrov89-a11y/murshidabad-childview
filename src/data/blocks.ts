@@ -1,5 +1,5 @@
 // Murshidabad block-level child protection data.
-// Sources: CINI Murshidabad Dashboard (HMIS, DPMU/Kanyashree, CMRTS, eCourts) 2023-2026
+// Sources: Murshidabad Dashboard (HMIS, DPMU/Kanyashree, CMRTS, eCourts) 2023-2026
 // + "Crime Against Children — Murshidabad" 2nd draft (2025).
 
 export type RiskLevel = "critical" | "high" | "moderate" | "low" | "safe";

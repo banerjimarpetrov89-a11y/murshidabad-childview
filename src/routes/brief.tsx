@@ -247,7 +247,7 @@ function BriefPage() {
         <SectionCard icon={Info} eyebrow="Section 6" title="Data Notes">
           <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>
-              <strong className="text-foreground">Sources:</strong> CINI Murshidabad Dashboard (HMIS, DPMU/Kanyashree, CMRTS, eCourts) 2023–2026;
+              <strong className="text-foreground">Sources:</strong> Murshidabad Dashboard (HMIS, DPMU/Kanyashree, CMRTS, eCourts) 2023–2026;
               "Crime Against Children — Murshidabad" 2nd draft (2025). Daily Arrest Report (DAR); NFHS-V vs NFHS-IV comparators.
             </li>
             <li>
