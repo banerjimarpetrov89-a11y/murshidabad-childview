@@ -8,9 +8,9 @@ import { SEED_STAKEHOLDERS } from "@/data/content";
 export const Route = createFileRoute("/stakeholders")({
   head: () => ({
     meta: [
-      { title: "Stakeholder Ecosystem — CINI Murshidabad" },
+      { title: "Stakeholder Ecosystem — CINI" },
       { name: "description", content: "Government departments, NGOs and CSR partners working on child protection in Murshidabad." },
-      { property: "og:title", content: "Stakeholder Ecosystem — CINI Murshidabad" },
+      { property: "og:title", content: "Stakeholder Ecosystem — CINI" },
       { property: "og:description", content: "Who is doing what across the district." },
     ],
   }),

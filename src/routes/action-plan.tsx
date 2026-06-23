@@ -5,9 +5,9 @@ import { ACTION_PLAN } from "@/data/content";
 export const Route = createFileRoute("/action-plan")({
   head: () => ({
     meta: [
-      { title: "District Action Plan — Murshidabad" },
+      { title: "District Action Plan  —" },
       { name: "description", content: "The two-part Murshidabad District Administration action plan: Data & Tracking + Community & Law Enforcement." },
-      { property: "og:title", content: "District Action Plan — Murshidabad" },
+      { property: "og:title", content: "District Action Plan  —" },
       { property: "og:description", content: "Concrete actions for govt, NGO and CSR partners." },
     ],
   }),
