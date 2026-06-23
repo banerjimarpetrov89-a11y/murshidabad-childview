@@ -1,13 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Send, Loader2, FileText, User2 } from "lucide-react";
+import { Sparkles, Send, Loader2, FileText, User2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 
 const SUGGESTED = [
@@ -33,8 +35,7 @@ export const Route = createFileRoute("/copilot")({
 });
 
 function CopilotPage() {
-
-
+  const { user, loading: authLoading } = useAuth();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const transport = useRef(
@@ -53,8 +54,11 @@ function CopilotPage() {
   const { messages, sendMessage, status } = useChat({
     id: "copilot",
     transport,
+    onError: (err) => {
+      console.error("copilot error", err);
+      toast.error(err?.message || "The assistant could not respond. Please try again.");
+    },
   });
-
 
   const isLoading = status === "submitted" || status === "streaming";
 
@@ -65,9 +69,39 @@ function CopilotPage() {
   const submit = async (text: string) => {
     const t = text.trim();
     if (!t || isLoading) return;
+    if (!user) {
+      toast.error("Please sign in to use the Intelligence Assistant.");
+      return;
+    }
     setInput("");
     await sendMessage({ text: t });
   };
+
+  if (!authLoading && !user) {
+    return (
+      <div className="bg-background">
+        <PageHeader
+          eyebrow="AI Intelligence Center"
+          title="Child Protection Intelligence Assistant"
+          lead="Evidence-based situational briefings across the Murshidabad dashboard."
+        />
+        <div className="mx-auto max-w-2xl px-4 pb-16 md:px-6">
+          <div className="rounded-xl border border-border bg-card p-8 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Lock className="h-6 w-6" />
+            </div>
+            <h2 className="mt-4 text-lg font-semibold text-foreground">Sign in required</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The Intelligence Assistant is available to authenticated users only. Please sign in to continue.
+            </p>
+            <Button asChild className="mt-5">
+              <Link to="/admin">Sign in</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background">
