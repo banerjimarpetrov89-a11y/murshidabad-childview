@@ -8,7 +8,7 @@ export const Route = createFileRoute("/matrix")({
   head: () => ({
     meta: [
       { title: "Vulnerability Matrix  —" },
-      { name: "description", content: "Plot of every Murshidabad block by incident volume vs reporting silence. Toggle to discrepancy ratio (FIRs/TP)." },
+      { name: "description", content: "Plot of every block by incident volume vs reporting silence. Toggle to discrepancy ratio (FIRs/TP)." },
       { property: "og:title", content: "Vulnerability Matrix  —" },
       { property: "og:description", content: "Where do the worst-affected and the most-silent blocks meet?" },
     ],
