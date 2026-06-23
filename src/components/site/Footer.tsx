@@ -25,7 +25,7 @@ export function SiteFooter() {
           <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-foreground">For researchers</div>
           <div className="mt-2 rounded-md border border-border bg-card p-3 text-[11px] leading-relaxed text-muted-foreground">
             <div className="font-semibold text-foreground">Cite this dashboard</div>
-            <p className="mt-1">CINI &amp; Murshidabad District Administration ({new Date().getFullYear()}). <em>Murshidabad Child Protection Dashboard.</em> Public knowledge resource. Retrieved from this site.</p>
+            <p className="mt-1">CINI &amp; District Administration ({new Date().getFullYear()}). <em>Child Protection Dashboard.</em> Public knowledge resource. Retrieved from this site.</p>
           </div>
         </div>
         <div>
