@@ -35,8 +35,7 @@ export const Route = createFileRoute("/copilot")({
 });
 
 function CopilotPage() {
-
-
+  const { user, loading: authLoading } = useAuth();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const transport = useRef(
@@ -55,8 +54,11 @@ function CopilotPage() {
   const { messages, sendMessage, status } = useChat({
     id: "copilot",
     transport,
+    onError: (err) => {
+      console.error("copilot error", err);
+      toast.error(err?.message || "The assistant could not respond. Please try again.");
+    },
   });
-
 
   const isLoading = status === "submitted" || status === "streaming";
 
@@ -67,9 +69,39 @@ function CopilotPage() {
   const submit = async (text: string) => {
     const t = text.trim();
     if (!t || isLoading) return;
+    if (!user) {
+      toast.error("Please sign in to use the Intelligence Assistant.");
+      return;
+    }
     setInput("");
     await sendMessage({ text: t });
   };
+
+  if (!authLoading && !user) {
+    return (
+      <div className="bg-background">
+        <PageHeader
+          eyebrow="AI Intelligence Center"
+          title="Child Protection Intelligence Assistant"
+          lead="Evidence-based situational briefings across the Murshidabad dashboard."
+        />
+        <div className="mx-auto max-w-2xl px-4 pb-16 md:px-6">
+          <div className="rounded-xl border border-border bg-card p-8 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Lock className="h-6 w-6" />
+            </div>
+            <h2 className="mt-4 text-lg font-semibold text-foreground">Sign in required</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The Intelligence Assistant is available to authenticated users only. Please sign in to continue.
+            </p>
+            <Button asChild className="mt-5">
+              <Link to="/admin">Sign in</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background">
