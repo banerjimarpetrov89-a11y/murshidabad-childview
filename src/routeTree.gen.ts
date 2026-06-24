@@ -24,6 +24,7 @@ import { Route as BriefRouteImport } from './routes/brief'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ActionPlanRouteImport } from './routes/action-plan'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BriefLinkedinRouteImport } from './routes/brief.linkedin'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const StakeholdersRoute = StakeholdersRouteImport.update({
@@ -101,6 +102,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BriefLinkedinRoute = BriefLinkedinRouteImport.update({
+  id: '/linkedin',
+  path: '/linkedin',
+  getParentRoute: () => BriefRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -111,7 +117,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
-  '/brief': typeof BriefRoute
+  '/brief': typeof BriefRouteWithChildren
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -124,12 +130,13 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
   '/api/chat': typeof ApiChatRoute
+  '/brief/linkedin': typeof BriefLinkedinRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
-  '/brief': typeof BriefRoute
+  '/brief': typeof BriefRouteWithChildren
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -142,13 +149,14 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
   '/api/chat': typeof ApiChatRoute
+  '/brief/linkedin': typeof BriefLinkedinRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/action-plan': typeof ActionPlanRoute
   '/admin': typeof AdminRoute
-  '/brief': typeof BriefRoute
+  '/brief': typeof BriefRouteWithChildren
   '/clusters': typeof ClustersRoute
   '/copilot': typeof CopilotRoute
   '/events': typeof EventsRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/stakeholders': typeof StakeholdersRoute
   '/api/chat': typeof ApiChatRoute
+  '/brief/linkedin': typeof BriefLinkedinRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/stakeholders'
     | '/api/chat'
+    | '/brief/linkedin'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/stakeholders'
     | '/api/chat'
+    | '/brief/linkedin'
   id:
     | '__root__'
     | '/'
@@ -217,13 +228,14 @@ export interface FileRouteTypes {
     | '/resources'
     | '/stakeholders'
     | '/api/chat'
+    | '/brief/linkedin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ActionPlanRoute: typeof ActionPlanRoute
   AdminRoute: typeof AdminRoute
-  BriefRoute: typeof BriefRoute
+  BriefRoute: typeof BriefRouteWithChildren
   ClustersRoute: typeof ClustersRoute
   CopilotRoute: typeof CopilotRoute
   EventsRoute: typeof EventsRoute
@@ -345,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brief/linkedin': {
+      id: '/brief/linkedin'
+      path: '/linkedin'
+      fullPath: '/brief/linkedin'
+      preLoaderRoute: typeof BriefLinkedinRouteImport
+      parentRoute: typeof BriefRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -355,11 +374,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BriefRouteChildren {
+  BriefLinkedinRoute: typeof BriefLinkedinRoute
+}
+
+const BriefRouteChildren: BriefRouteChildren = {
+  BriefLinkedinRoute: BriefLinkedinRoute,
+}
+
+const BriefRouteWithChildren = BriefRoute._addFileChildren(BriefRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ActionPlanRoute: ActionPlanRoute,
   AdminRoute: AdminRoute,
-  BriefRoute: BriefRoute,
+  BriefRoute: BriefRouteWithChildren,
   ClustersRoute: ClustersRoute,
   CopilotRoute: CopilotRoute,
   EventsRoute: EventsRoute,
@@ -376,12 +405,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
